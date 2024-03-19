@@ -27,10 +27,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.gpillaca.upcomingmovies" />
+                  <option name="mobileSdkAppId" value="1:612743917362:android:a5f79dc6b6570835bff12b" />
+                  <option name="projectId" value="upcomingmovies-app-prod" />
+                  <option name="projectNumber" value="612743917362" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

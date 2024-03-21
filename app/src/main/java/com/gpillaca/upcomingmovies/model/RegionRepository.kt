@@ -10,14 +10,17 @@ import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class RegionRepository(private val activity: AppCompatActivity) {
+class RegionRepository(
+    private val activity: AppCompatActivity
+) {
 
     companion object {
         private const val DEFAULT_REGION = "US"
     }
 
-    private val fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(activity)
+    private val locationDataSource: LocationDataSource by lazy {
+        PlayServicesLocationDataSource(activity)
+    }
 
     private val coarsePermissionChecker = PermissionChecker(
         activity,
@@ -28,17 +31,8 @@ class RegionRepository(private val activity: AppCompatActivity) {
 
     private suspend fun findLastLocation(): Location? {
         val isGranted = coarsePermissionChecker.requestPermission()
-        return if (isGranted) findLastLocationSuspended() else null
+        return if (isGranted) locationDataSource.findLastLocation() else null
     }
-
-    @SuppressLint("MissingPermission")
-    private suspend fun findLastLocationSuspended(): Location? =
-        suspendCancellableCoroutine { continuation ->
-            fusedLocationClient.lastLocation
-                .addOnCompleteListener {
-                    continuation.resume(it.result)
-                }
-        }
 
     private fun getRegionFromLocation(location: Location?): String {
         val geocoder = Geocoder(activity)

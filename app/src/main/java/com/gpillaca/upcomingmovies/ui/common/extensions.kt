@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui
+package com.gpillaca.upcomingmovies.ui.common
 
 import android.content.Intent
 import android.view.LayoutInflater

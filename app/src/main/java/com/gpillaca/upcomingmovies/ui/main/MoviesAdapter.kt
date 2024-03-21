@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui
+package com.gpillaca.upcomingmovies.ui.main
 
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +10,8 @@ import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.ViewMovieBinding
 import com.gpillaca.upcomingmovies.model.Movie
+import com.gpillaca.upcomingmovies.ui.common.inflate
+import com.gpillaca.upcomingmovies.ui.common.loadUrl
 
 class MoviesAdapter(
     private val listener: (Movie) -> Unit

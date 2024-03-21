@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui
+package com.gpillaca.upcomingmovies.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,6 +9,8 @@ import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.databinding.ActivityDetailBinding
 import com.gpillaca.upcomingmovies.model.Movie
+import com.gpillaca.upcomingmovies.ui.common.getParcelableExtraCompat
+import com.gpillaca.upcomingmovies.ui.common.loadUrl
 
 class DetailActivity : AppCompatActivity() {
     companion object {

@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui
+package com.gpillaca.upcomingmovies.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.gpillaca.upcomingmovies.databinding.ActivityMainBinding
 import com.gpillaca.upcomingmovies.model.MovieRepository
+import com.gpillaca.upcomingmovies.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {

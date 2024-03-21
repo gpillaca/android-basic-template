@@ -3,40 +3,25 @@ package com.gpillaca.upcomingmovies.ui
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.ViewMovieBinding
 import com.gpillaca.upcomingmovies.model.Movie
-import kotlin.properties.Delegates
 
-class MoviesAdapter(private val listener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
-
-    var movies: List<Movie> by Delegates.observable(emptyList()) { _, old, new ->
-        DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-                old[oldItemPosition].id == new[newItemPosition].id
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-                old[oldItemPosition] == new[newItemPosition]
-
-            override fun getOldListSize(): Int = old.size
-
-            override fun getNewListSize(): Int = new.size
-        }).dispatchUpdatesTo(this)
-    }
+class MoviesAdapter(
+    private val listener: (Movie) -> Unit
+) : ListAdapter<Movie, MoviesAdapter.ViewHolder>(MovieDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = parent.inflate(R.layout.view_movie, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movies.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = movies[position]
+        val movie = getItem(position)
         holder.bind(movie)
         holder.itemView.setOnClickListener { listener(movie) }
     }
@@ -46,6 +31,16 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
         fun bind(movie: Movie) = with(binding) {
             movieTitle.text = movie.title
             movieCover.loadUrl("${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_POSTER}${movie.posterPath}")
+        }
+    }
+
+    object MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            return oldItem == newItem
         }
     }
 }

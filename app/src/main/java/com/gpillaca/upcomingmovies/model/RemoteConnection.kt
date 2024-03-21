@@ -1,5 +1,6 @@
 package com.gpillaca.upcomingmovies.model
 
+import com.gpillaca.upcomingmovies.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,7 +15,7 @@ object RemoteConnection {
     }
 
     private val builder = Retrofit.Builder()
-        .baseUrl("https://api.themoviedb.org/3/")
+        .baseUrl(BuildConfig.HOST)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

@@ -18,7 +18,14 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField( "String", "HOST", "\"https://api.themoviedb.org/3/\"")
+        buildConfigField("String", "HOST_IMAGE", "\"https://image.tmdb.org/t/p/\"")
+        buildConfigField("String", "API_KEY", "\"d30e1f350220f9aad6c4110df385d380\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -39,6 +46,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }

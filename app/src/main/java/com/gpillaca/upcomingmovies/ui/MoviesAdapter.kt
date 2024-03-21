@@ -4,6 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.gpillaca.upcomingmovies.BuildConfig
+import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.ViewMovieBinding
 import com.gpillaca.upcomingmovies.model.Movie
@@ -43,7 +45,7 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
         private val binding = ViewMovieBinding.bind(view)
         fun bind(movie: Movie) = with(binding) {
             movieTitle.text = movie.title
-            movieCover.loadUrl("https://image.tmdb.org/t/p/w185/${movie.posterPath}")
+            movieCover.loadUrl("${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_POSTER}${movie.posterPath}")
         }
     }
 }

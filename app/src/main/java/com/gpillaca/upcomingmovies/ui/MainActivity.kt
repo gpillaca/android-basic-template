@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.gpillaca.upcomingmovies.R
+import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.databinding.ActivityMainBinding
 import com.gpillaca.upcomingmovies.model.RemoteConnection
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val location = getLocation(isGranted)
                 val movies = RemoteConnection.service.listPopularMovies(
-                    getString(R.string.api_key),
+                    BuildConfig.API_KEY,
                     getRegionFromLocation(location)
                 )
                 adapter.movies = movies.results

@@ -3,8 +3,6 @@ package com.gpillaca.upcomingmovies.ui.detail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.bold
-import androidx.core.text.buildSpannedString
 import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.databinding.ActivityDetailBinding
@@ -23,31 +21,13 @@ class DetailActivity : AppCompatActivity() {
         val binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        intent.getParcelableExtraCompat<Movie>(MOVIE)?.run {
-            binding.movieDetailToolbar.title = title
+        val movie = intent.getParcelableExtraCompat<Movie>(MOVIE)?: throw IllegalStateException()
 
-            val background = backdropPath ?: posterPath
-            binding.movieDetailImage.loadUrl("${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_BACKGROUND}$background")
+        binding.movieDetailToolbar.title = movie.title
 
-            binding.movieDetailSummary.text = overview
-
-            binding.movieDetailInfo.text = buildSpannedString {
-
-                bold { append("Original language: ") }
-                appendLine(originalLanguage)
-
-                bold { append("Original title: ") }
-                appendLine(originalTitle)
-
-                bold { append("Release date: ") }
-                appendLine(releaseDate)
-
-                bold { append("Popularity: ") }
-                appendLine(popularity.toString())
-
-                bold { append("Vote Average: ") }
-                append(voteAverage.toString())
-            }
-        }
+        val background = movie.backdropPath ?: movie.posterPath
+        binding.movieDetailImage.loadUrl("${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_BACKGROUND}$background")
+        binding.movieDetailSummary.text = movie.overview
+        binding.movieDetailInfo.setMovieInfo(movie)
     }
 }

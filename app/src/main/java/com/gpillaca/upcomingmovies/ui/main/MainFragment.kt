@@ -1,25 +1,27 @@
 package com.gpillaca.upcomingmovies.ui.main
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.gpillaca.upcomingmovies.databinding.ActivityMainBinding
+import androidx.navigation.fragment.findNavController
+import com.gpillaca.upcomingmovies.R
+import com.gpillaca.upcomingmovies.databinding.FragmentMainBinding
 import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.model.MovieRepository
-import com.gpillaca.upcomingmovies.ui.detail.MovieDetailActivity
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentMainBinding
 
     private val movieRepository by lazy {
-        MovieRepository(this)
+        MovieRepository(requireActivity() as AppCompatActivity)
     }
 
     private val mainViewModel: MainViewModel by viewModels {
@@ -30,14 +32,13 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.onMovieClicked(it)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentMainBinding.bind(view)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         binding.recycler.adapter = adapter
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.state.collect{ state ->
                     updateUI(state)
@@ -53,8 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateTo(movie: Movie) {
-        val intent = Intent(this, MovieDetailActivity::class.java)
-        intent.putExtra(MovieDetailActivity.MOVIE, movie)
-        startActivity(intent)
+        val navAction = MainFragmentDirections.actionMainToMoviedetail(movie)
+        findNavController().navigate(navAction)
     }
 }

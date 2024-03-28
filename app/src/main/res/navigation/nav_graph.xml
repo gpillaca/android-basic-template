@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/main_dest">
+
+    <fragment
+        android:id="@+id/main_dest"
+        android:name="com.gpillaca.upcomingmovies.ui.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_main_to_moviedetail"
+            app:destination="@id/movieDetail_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetail_dest"
+        android:name="com.gpillaca.upcomingmovies.ui.detail.MovieDetailFragment"
+        android:label="fragment_movie_detail"
+        tools:layout="@layout/fragment_movie_detail" >
+        <argument
+            android:name="movie"
+            app:argType="com.gpillaca.upcomingmovies.model.Movie" />
+    </fragment>
+</navigation>

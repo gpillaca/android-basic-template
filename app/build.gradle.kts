@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -61,6 +62,8 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.activity:activity-ktx:1.8.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     implementation("com.google.android.gms:play-services-location:21.2.0")
 

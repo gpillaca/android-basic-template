@@ -1,39 +1,45 @@
 package com.gpillaca.upcomingmovies.ui.detail
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.Constants
-import com.gpillaca.upcomingmovies.databinding.ActivityMovieDetailBinding
+import com.gpillaca.upcomingmovies.R
+import com.gpillaca.upcomingmovies.databinding.FragmentMovieDetailBinding
 import com.gpillaca.upcomingmovies.model.Movie
-import com.gpillaca.upcomingmovies.ui.common.getParcelableExtraCompat
 import com.gpillaca.upcomingmovies.ui.common.loadUrl
 import kotlinx.coroutines.launch
 
-class MovieDetailActivity : AppCompatActivity() {
+class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     companion object {
         const val MOVIE = "DetailActivity:movie"
     }
 
-    private lateinit var binding: ActivityMovieDetailBinding
+    private val safeArgs: MovieDetailFragmentArgs by navArgs()
+
+    private lateinit var binding: FragmentMovieDetailBinding
 
     private val movieDetailViewModel: MovieDetailViewModel by viewModels {
-        val movie = intent.getParcelableExtraCompat<Movie>(MOVIE) ?: throw IllegalStateException()
-        MovieDetailViewModelFactory(movie)
+        MovieDetailViewModelFactory(safeArgs.movie)
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMovieDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
+        binding = FragmentMovieDetailBinding.bind(view)
+
+        binding.movieDetailToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 movieDetailViewModel.state.collect { state ->
                     showMovieDetail(state.movie)

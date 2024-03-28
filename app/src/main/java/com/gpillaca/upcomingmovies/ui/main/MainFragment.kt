@@ -56,5 +56,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun navigateTo(movie: Movie) {
         val navAction = MainFragmentDirections.actionMainToMoviedetail(movie)
         findNavController().navigate(navAction)
+        mainViewModel.onNavigationDone()
     }
 }

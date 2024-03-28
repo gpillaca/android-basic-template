@@ -37,6 +37,10 @@ class MainViewModel(
     fun onMovieClicked(movie: Movie) {
         _state.value = _state.value.copy(navigateTo = movie)
     }
+
+    fun onNavigationDone() {
+        _state.value = _state.value.copy(navigateTo = null)
+    }
 }
 
 @Suppress("UNCHECKED_CAST")

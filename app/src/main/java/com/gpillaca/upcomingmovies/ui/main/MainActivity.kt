@@ -2,16 +2,15 @@ package com.gpillaca.upcomingmovies.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.gpillaca.upcomingmovies.databinding.ActivityMainBinding
 import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.model.MovieRepository
 import com.gpillaca.upcomingmovies.ui.detail.MovieDetailActivity
 
-class MainActivity : AppCompatActivity(), MainPresenter.View {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -19,12 +18,12 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
         MovieRepository(this)
     }
 
-    private val mainPresenter by lazy {
-        MainPresenter(movieRepository, lifecycleScope)
+    private val mainViewModel: MainViewModel by viewModels {
+        MainViewModelFactory(movieRepository)
     }
 
     private val adapter = MoviesAdapter{
-        mainPresenter.onMovieClicked(it)
+        mainViewModel.onMovieClicked(it)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,22 +33,18 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
         setContentView(binding.root)
         binding.recycler.adapter = adapter
 
-        mainPresenter.onCreate(this)
+        mainViewModel.state.observe(this) { state ->
+            updateUI(state)
+        }
     }
 
-    override fun showProgress() {
-        binding.progress.isVisible = true
+    private fun updateUI(state: MainViewModel.UiState) {
+        binding.progress.isVisible = state.loading
+        state.movies?.let(adapter::submitList)
+        state.navigateTo?.let(::navigateTo)
     }
 
-    override fun updateData(movies: List<Movie>) {
-        adapter.submitList(movies)
-    }
-
-    override fun hideProgress() {
-        binding.progress.isGone = true
-    }
-
-    override fun navigateTo(movie: Movie) {
+    private fun navigateTo(movie: Movie) {
         val intent = Intent(this, MovieDetailActivity::class.java)
         intent.putExtra(MovieDetailActivity.MOVIE, movie)
         startActivity(intent)

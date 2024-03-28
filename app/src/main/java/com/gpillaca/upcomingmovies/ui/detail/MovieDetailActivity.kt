@@ -4,12 +4,16 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.databinding.ActivityMovieDetailBinding
 import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.ui.common.getParcelableExtraCompat
 import com.gpillaca.upcomingmovies.ui.common.loadUrl
+import kotlinx.coroutines.launch
 
 class MovieDetailActivity : AppCompatActivity() {
     companion object {
@@ -29,8 +33,12 @@ class MovieDetailActivity : AppCompatActivity() {
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        movieDetailViewModel.state.observe(this) { state ->
-            showMovieDetail(state.movie)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                movieDetailViewModel.state.collect { state ->
+                    showMovieDetail(state.movie)
+                }
+            }
         }
     }
 

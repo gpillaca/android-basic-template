@@ -5,10 +5,14 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.gpillaca.upcomingmovies.databinding.ActivityMainBinding
 import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.model.MovieRepository
 import com.gpillaca.upcomingmovies.ui.detail.MovieDetailActivity
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,8 +37,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.recycler.adapter = adapter
 
-        mainViewModel.state.observe(this) { state ->
-            updateUI(state)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.state.collect{ state ->
+                    updateUI(state)
+                }
+            }
         }
     }
 

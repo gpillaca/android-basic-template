@@ -1,10 +1,11 @@
 package com.gpillaca.upcomingmovies.ui.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.gpillaca.upcomingmovies.model.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class MovieDetailViewModel(
     private val movie: Movie
@@ -14,8 +15,8 @@ class MovieDetailViewModel(
         val movie: Movie
     )
 
-    private val _state = MutableLiveData(UiState(movie))
-    val state: LiveData<UiState> get() = _state
+    private val _state = MutableStateFlow(UiState(movie))
+    val state: StateFlow<UiState> = _state.asStateFlow()
 }
 
 @Suppress("UNCHECKED_CAST")

@@ -1,12 +1,13 @@
 package com.gpillaca.upcomingmovies.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.model.MovieRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -19,13 +20,11 @@ class MainViewModel(
         val navigateTo: Movie? = null
     )
 
-    private var _state = MutableLiveData(UiState())
-    val state: LiveData<UiState> get() {
-        if (_state.value?.movies == null) {
-            refresh()
-        }
+    private var _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
-        return _state
+    init {
+        refresh()
     }
 
     private fun refresh() {
@@ -36,7 +35,7 @@ class MainViewModel(
     }
 
     fun onMovieClicked(movie: Movie) {
-        _state.value = _state.value?.copy(navigateTo = movie)
+        _state.value = _state.value.copy(navigateTo = movie)
     }
 }
 

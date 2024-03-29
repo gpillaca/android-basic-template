@@ -3,8 +3,9 @@ package com.gpillaca.upcomingmovies.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.gpillaca.upcomingmovies.model.database.Movie
-import com.gpillaca.upcomingmovies.model.MovieRepository
+import com.gpillaca.upcomingmovies.model.database.Movie as MovieDatabase
+import com.gpillaca.upcomingmovies.model.Movie
+import com.gpillaca.upcomingmovies.model.repository.MovieRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,10 +23,18 @@ class MainViewModel(
     private var _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            movieRepository.popularMovies.collect { movies ->
+                _state.value = UiState(movies = movies.toMovieList())
+            }
+        }
+    }
+
     fun onUiReady() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(movies = movieRepository.findPopularMovies())
+            movieRepository.requestPopularMovies()
         }
     }
 }
@@ -40,3 +49,25 @@ class MainViewModelFactory(
     }
 
 }
+
+private fun List<MovieDatabase>.toMovieList(): List<Movie> {
+    return map { movie ->
+        movie.toMovie()
+    }
+}
+
+private fun MovieDatabase.toMovie() = Movie(
+    adult,
+    backdropPath,
+    id,
+    originalLanguage,
+    originalTitle,
+    overview,
+    popularity,
+    posterPath,
+    releaseDate,
+    title,
+    video,
+    voteAverage,
+    voteCount
+)

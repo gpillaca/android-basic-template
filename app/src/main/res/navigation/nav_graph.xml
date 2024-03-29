@@ -23,6 +23,6 @@
         tools:layout="@layout/fragment_movie_detail" >
         <argument
             android:name="movie"
-            app:argType="com.gpillaca.upcomingmovies.model.database.Movie" />
+            app:argType="com.gpillaca.upcomingmovies.model.Movie" />
     </fragment>
 </navigation>

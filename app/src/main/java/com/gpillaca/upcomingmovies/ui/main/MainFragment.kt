@@ -11,6 +11,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.FragmentMainBinding
 import com.gpillaca.upcomingmovies.model.MovieRepository
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -41,8 +43,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainViewModel.state.collect{ state ->
-                    updateUI(state)
+                mainViewModel.state.map { it.loading }.distinctUntilChanged().collect{ isLoading ->
+                    binding.progress.isVisible = isLoading
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                with(mainViewModel.state) {
+                    map { state -> state.movies }.distinctUntilChanged().collect { movies ->
+                        movies?.let {
+                            adapter.submitList(it)
+                        }
+                    }
                 }
             }
         }
@@ -50,10 +64,5 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         mainState.requestLocationPermissions {
             mainViewModel.onUiReady()
         }
-    }
-
-    private fun updateUI(state: MainViewModel.UiState) {
-        binding.progress.isVisible = state.loading
-        state.movies?.let(adapter::submitList)
     }
 }

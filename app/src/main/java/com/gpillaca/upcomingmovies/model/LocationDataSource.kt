@@ -1,8 +1,8 @@
 package com.gpillaca.upcomingmovies.model
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -12,10 +12,10 @@ interface LocationDataSource {
     suspend fun findLastLocation(): Location?
 }
 
-class PlayServicesLocationDataSource(activity: AppCompatActivity) : LocationDataSource {
+class PlayServicesLocationDataSource(application: Application) : LocationDataSource {
 
     private val fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(activity)
+        LocationServices.getFusedLocationProviderClient(application)
 
     @SuppressLint("MissingPermission")
     override suspend fun findLastLocation(): Location? =

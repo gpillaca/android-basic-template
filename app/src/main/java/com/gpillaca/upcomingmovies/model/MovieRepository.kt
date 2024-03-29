@@ -1,12 +1,12 @@
 package com.gpillaca.upcomingmovies.model
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Application
 import com.gpillaca.upcomingmovies.BuildConfig
 
-class MovieRepository(private val activity: AppCompatActivity) {
+class MovieRepository(private val application: Application) {
 
     private val regionRepository by lazy {
-        RegionRepository(activity)
+        RegionRepository(application)
     }
 
     suspend fun findPopularMovies(): List<Movie> {

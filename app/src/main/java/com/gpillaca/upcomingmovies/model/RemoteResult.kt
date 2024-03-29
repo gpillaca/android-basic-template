@@ -2,6 +2,7 @@ package com.gpillaca.upcomingmovies.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.gpillaca.upcomingmovies.model.database.Movie
 import kotlinx.parcelize.Parcelize
 
 data class RemoteResult(

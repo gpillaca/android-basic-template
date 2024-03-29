@@ -2,6 +2,7 @@ package com.gpillaca.upcomingmovies.model
 
 import android.app.Application
 import com.gpillaca.upcomingmovies.BuildConfig
+import com.gpillaca.upcomingmovies.model.database.Movie
 
 class MovieRepository(private val application: Application) {
 

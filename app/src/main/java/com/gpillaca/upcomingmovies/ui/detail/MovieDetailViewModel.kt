@@ -2,7 +2,7 @@ package com.gpillaca.upcomingmovies.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gpillaca.upcomingmovies.model.Movie
+import com.gpillaca.upcomingmovies.model.database.Movie
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

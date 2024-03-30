@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.ui.common.PermissionRequester
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -16,8 +15,8 @@ class MainState(
     private val navController: NavController
 ) {
 
-    fun onMovieClick(movie: Movie) {
-        val navAction = MainFragmentDirections.actionMainToMoviedetail(movie)
+    fun onMovieClick(movieId: Int) {
+        val navAction = MainFragmentDirections.actionMainToMoviedetail(movieId)
         navController.navigate(navAction)
     }
 

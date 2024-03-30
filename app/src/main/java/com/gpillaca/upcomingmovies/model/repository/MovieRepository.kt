@@ -27,6 +27,10 @@ class MovieRepository(private val application: Application) {
             movieLocalDataSource.save(movies.toLocalModel())
         }
     }
+
+    suspend fun findMovie(id: Int) = withContext(Dispatchers.IO) {
+        movieLocalDataSource.findMovie(id)
+    }
 }
 
 private fun List<Movie>.toLocalModel(): List<MovieDatabase> {

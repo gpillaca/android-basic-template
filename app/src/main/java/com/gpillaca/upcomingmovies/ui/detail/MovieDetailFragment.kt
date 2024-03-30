@@ -14,20 +14,22 @@ import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.FragmentMovieDetailBinding
 import com.gpillaca.upcomingmovies.model.Movie
+import com.gpillaca.upcomingmovies.model.repository.MovieRepository
 import com.gpillaca.upcomingmovies.ui.common.loadUrl
 import kotlinx.coroutines.launch
 
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
-    companion object {
-        const val MOVIE = "DetailActivity:movie"
-    }
 
     private val safeArgs: MovieDetailFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentMovieDetailBinding
 
+    private val movieRepository by lazy {
+        MovieRepository(requireActivity().application)
+    }
+
     private val movieDetailViewModel: MovieDetailViewModel by viewModels {
-        MovieDetailViewModelFactory(safeArgs.movie)
+        MovieDetailViewModelFactory(safeArgs.movieId, movieRepository)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +44,9 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 movieDetailViewModel.state.collect { state ->
-                    showMovieDetail(state.movie)
+                    state.movie?.let {
+                        showMovieDetail(it)
+                    }
                 }
             }
         }

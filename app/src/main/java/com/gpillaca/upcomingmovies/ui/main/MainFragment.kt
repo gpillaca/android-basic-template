@@ -28,7 +28,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private val adapter = MoviesAdapter{ movie ->
-        mainState.onMovieClick(movie)
+        mainState.onMovieClick(movie.id)
     }
 
     private lateinit var mainState: MainState

@@ -56,7 +56,7 @@ private fun List<MovieDatabase>.toMovieList(): List<Movie> {
     }
 }
 
-private fun MovieDatabase.toMovie() = Movie(
+fun MovieDatabase.toMovie() = Movie(
     adult,
     backdropPath,
     id,

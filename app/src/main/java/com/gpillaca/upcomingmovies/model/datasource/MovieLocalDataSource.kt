@@ -15,4 +15,6 @@ class MovieLocalDataSource(
     }
 
     fun isEmpty(): Boolean = movieDao.movieCount() == 0
+
+    fun findMovie(id: Int) = movieDao.findByID(id)
 }

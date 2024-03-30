@@ -2,6 +2,7 @@ package com.gpillaca.upcomingmovies.ui.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -56,6 +57,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         movies?.let {
                             adapter.submitList(it)
                         }
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.state.map { it.error }.distinctUntilChanged().collect{ error ->
+                    error?.let {
+                        Toast.makeText(requireActivity(), mainState.errorToString(it), Toast.LENGTH_LONG).show()
                     }
                 }
             }

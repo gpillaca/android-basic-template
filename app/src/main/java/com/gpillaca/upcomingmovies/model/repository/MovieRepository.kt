@@ -6,6 +6,7 @@ import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.model.datasource.MovieLocalDataSource
 import com.gpillaca.upcomingmovies.model.datasource.MovieRemoteDataSource
+import com.gpillaca.upcomingmovies.model.tryCall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.gpillaca.upcomingmovies.model.database.Movie as MovieDatabase
@@ -22,18 +23,19 @@ class MovieRepository(private val application: Application) {
     val popularMovies = movieLocalDataSource.movies
 
     suspend fun requestPopularMovies() = withContext(Dispatchers.IO) {
-        if (movieLocalDataSource.isEmpty()) {
-            val movies = remoteDataSource.findPopularMovies(regionRepository.findLastRegion())
-            movieLocalDataSource.save(movies.toLocalModel())
+        tryCall {
+            if (movieLocalDataSource.isEmpty()) {
+                val movies = remoteDataSource.findPopularMovies(regionRepository.findLastRegion())
+                movieLocalDataSource.save(movies.toLocalModel())
+            }
         }
     }
 
     fun findMovie(id: Int) = movieLocalDataSource.findMovie(id)
 
-    suspend fun switchFavorite(movie: Movie) {
-        val updatedMovie = movie.toMovieDatabase().run {
-            copy(favorite = !favorite)
-        }
+    suspend fun switchFavorite(movie: Movie) = tryCall {
+        val updatedMovie = movie.copy(favorite = !movie.favorite).toMovieDatabase()
+
         movieLocalDataSource.updateMovie(updatedMovie)
     }
 }

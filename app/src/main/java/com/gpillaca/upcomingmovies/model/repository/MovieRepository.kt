@@ -17,19 +17,24 @@ class MovieRepository(private val application: Application) {
     }
     private val movieDao = (application as AppUpComingMovies).db.movieDao()
     private val movieLocalDataSource = MovieLocalDataSource(movieDao)
-    private val remoteDataSource = MovieRemoteDataSource(BuildConfig.API_KEY, regionRepository)
+    private val remoteDataSource = MovieRemoteDataSource(BuildConfig.API_KEY)
 
     val popularMovies = movieLocalDataSource.movies
 
     suspend fun requestPopularMovies() = withContext(Dispatchers.IO) {
         if (movieLocalDataSource.isEmpty()) {
-            val movies = remoteDataSource.findPopularMovies()
+            val movies = remoteDataSource.findPopularMovies(regionRepository.findLastRegion())
             movieLocalDataSource.save(movies.toLocalModel())
         }
     }
 
-    suspend fun findMovie(id: Int) = withContext(Dispatchers.IO) {
-        movieLocalDataSource.findMovie(id)
+    fun findMovie(id: Int) = movieLocalDataSource.findMovie(id)
+
+    suspend fun switchFavorite(movie: Movie) {
+        val updatedMovie = movie.toMovieDatabase().run {
+            copy(favorite = !favorite)
+        }
+        movieLocalDataSource.updateMovie(updatedMovie)
     }
 }
 
@@ -52,5 +57,6 @@ private fun Movie.toMovieDatabase() = MovieDatabase(
     title,
     video,
     voteAverage,
-    voteCount
+    voteCount,
+    favorite
 )

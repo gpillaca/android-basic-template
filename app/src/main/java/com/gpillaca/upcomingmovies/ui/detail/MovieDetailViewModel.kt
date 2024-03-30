@@ -28,6 +28,14 @@ class MovieDetailViewModel(
             }
         }
     }
+
+    fun onFavoriteClicked() {
+        viewModelScope.launch {
+            _state.value.movie?.let {
+                movieRepository.switchFavorite(it)
+            }
+        }
+    }
 }
 
 @Suppress("UNCHECKED_CAST")

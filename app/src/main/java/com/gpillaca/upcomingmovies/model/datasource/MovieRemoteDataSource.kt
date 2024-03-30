@@ -2,17 +2,15 @@ package com.gpillaca.upcomingmovies.model.datasource
 
 import com.gpillaca.upcomingmovies.model.Movie
 import com.gpillaca.upcomingmovies.model.RemoteConnection
-import com.gpillaca.upcomingmovies.model.repository.RegionRepository
 
 class MovieRemoteDataSource(
-    private val apiKey: String,
-    private val regionRepository: RegionRepository
+    private val apiKey: String
 ) {
 
-    suspend fun findPopularMovies(): List<Movie> {
+    suspend fun findPopularMovies(region: String): List<Movie> {
         return RemoteConnection.service.listPopularMovies(
             apiKey,
-            regionRepository.findLastRegion()
+            region
         ).results
     }
 

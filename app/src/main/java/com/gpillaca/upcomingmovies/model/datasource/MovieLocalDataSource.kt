@@ -10,11 +10,13 @@ class MovieLocalDataSource(
 
     val movies: Flow<List<Movie>> = movieDao.getAll()
 
-    fun save(movies: List<Movie>) {
+    suspend fun save(movies: List<Movie>) {
         movieDao.insertMovies(movies)
     }
 
-    fun isEmpty(): Boolean = movieDao.movieCount() == 0
+    suspend fun isEmpty(): Boolean = movieDao.movieCount() == 0
 
     fun findMovie(id: Int) = movieDao.findByID(id)
+
+    suspend fun updateMovie(movie: Movie) = movieDao.updateMovie(movie)
 }

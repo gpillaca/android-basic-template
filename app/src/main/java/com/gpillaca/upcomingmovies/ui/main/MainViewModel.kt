@@ -69,5 +69,6 @@ fun MovieDatabase.toMovie() = Movie(
     title,
     video,
     voteAverage,
-    voteCount
+    voteCount,
+    favorite
 )

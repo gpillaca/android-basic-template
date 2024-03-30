@@ -2,6 +2,7 @@ package com.gpillaca.upcomingmovies.ui.main
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gpillaca.upcomingmovies.BuildConfig
@@ -31,6 +32,7 @@ class MoviesAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ViewMovieBinding.bind(view)
         fun bind(movie: Movie) = with(binding) {
+            favoriteIcon.isVisible = movie.favorite
             movieTitle.text = movie.title
             movieCover.loadUrl("${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_POSTER}${movie.posterPath}")
         }

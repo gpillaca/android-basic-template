@@ -2,6 +2,7 @@ package com.gpillaca.upcomingmovies.ui.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -50,6 +51,10 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                 }
             }
         }
+
+        binding.movieDetailFavorite.setOnClickListener {
+            movieDetailViewModel.onFavoriteClicked()
+        }
     }
 
     private fun showMovieDetail(movie: Movie) {
@@ -59,5 +64,13 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         binding.movieDetailImage.loadUrl("${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_BACKGROUND}$background")
         binding.movieDetailSummary.text = movie.overview
         binding.movieDetailInfo.setMovieInfo(movie)
+
+        val favoriteIcon = if (movie.favorite) {
+            R.drawable.ic_favorite_on_24
+        } else {
+            R.drawable.ic_favorite_off_24
+        }
+
+        binding.movieDetailFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(), favoriteIcon))
     }
 }

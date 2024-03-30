@@ -9,7 +9,7 @@ import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.ViewMovieBinding
-import com.gpillaca.upcomingmovies.model.Movie
+import com.gpillaca.upcomingmovies.data.Movie
 import com.gpillaca.upcomingmovies.ui.common.basicDiffUtil
 import com.gpillaca.upcomingmovies.ui.common.inflate
 import com.gpillaca.upcomingmovies.ui.common.loadUrl

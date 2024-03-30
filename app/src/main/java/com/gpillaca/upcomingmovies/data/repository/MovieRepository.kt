@@ -1,15 +1,15 @@
-package com.gpillaca.upcomingmovies.model.repository
+package com.gpillaca.upcomingmovies.data.repository
 
 import android.app.Application
 import com.gpillaca.upcomingmovies.AppUpComingMovies
 import com.gpillaca.upcomingmovies.BuildConfig
-import com.gpillaca.upcomingmovies.model.Movie
-import com.gpillaca.upcomingmovies.model.datasource.MovieLocalDataSource
-import com.gpillaca.upcomingmovies.model.datasource.MovieRemoteDataSource
-import com.gpillaca.upcomingmovies.model.tryCall
+import com.gpillaca.upcomingmovies.data.Movie
+import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
+import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
+import com.gpillaca.upcomingmovies.data.tryCall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import com.gpillaca.upcomingmovies.model.database.Movie as MovieDatabase
+import com.gpillaca.upcomingmovies.data.database.Movie as MovieDatabase
 
 class MovieRepository(private val application: Application) {
 

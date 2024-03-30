@@ -1,7 +1,7 @@
-package com.gpillaca.upcomingmovies.model.datasource
+package com.gpillaca.upcomingmovies.data.datasource
 
-import com.gpillaca.upcomingmovies.model.Movie
-import com.gpillaca.upcomingmovies.model.RemoteConnection
+import com.gpillaca.upcomingmovies.data.Movie
+import com.gpillaca.upcomingmovies.data.RemoteConnection
 
 class MovieRemoteDataSource(
     private val apiKey: String

@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.model
+package com.gpillaca.upcomingmovies.data
 
 import com.gpillaca.upcomingmovies.BuildConfig
 import okhttp3.OkHttpClient

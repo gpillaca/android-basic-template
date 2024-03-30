@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.model.datasource
+package com.gpillaca.upcomingmovies.data.datasource
 
 import android.annotation.SuppressLint
 import android.app.Application

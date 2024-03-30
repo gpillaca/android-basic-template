@@ -14,8 +14,8 @@ import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.FragmentMovieDetailBinding
-import com.gpillaca.upcomingmovies.model.Movie
-import com.gpillaca.upcomingmovies.model.repository.MovieRepository
+import com.gpillaca.upcomingmovies.data.Movie
+import com.gpillaca.upcomingmovies.data.repository.MovieRepository
 import com.gpillaca.upcomingmovies.ui.common.loadUrl
 import kotlinx.coroutines.launch
 

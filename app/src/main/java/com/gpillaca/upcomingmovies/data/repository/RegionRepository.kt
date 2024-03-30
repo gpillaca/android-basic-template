@@ -1,12 +1,12 @@
-package com.gpillaca.upcomingmovies.model.repository
+package com.gpillaca.upcomingmovies.data.repository
 
 import android.Manifest
 import android.app.Application
 import android.location.Geocoder
 import android.location.Location
-import com.gpillaca.upcomingmovies.model.datasource.LocationDataSource
-import com.gpillaca.upcomingmovies.model.PermissionChecker
-import com.gpillaca.upcomingmovies.model.datasource.PlayServicesLocationDataSource
+import com.gpillaca.upcomingmovies.data.datasource.LocationDataSource
+import com.gpillaca.upcomingmovies.data.PermissionChecker
+import com.gpillaca.upcomingmovies.data.datasource.PlayServicesLocationDataSource
 
 class RegionRepository(
     private val application: Application

@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.model.database
+package com.gpillaca.upcomingmovies.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert

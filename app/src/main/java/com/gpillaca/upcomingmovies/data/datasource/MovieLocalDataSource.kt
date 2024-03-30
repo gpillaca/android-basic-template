@@ -1,7 +1,7 @@
-package com.gpillaca.upcomingmovies.model.datasource
+package com.gpillaca.upcomingmovies.data.datasource
 
-import com.gpillaca.upcomingmovies.model.database.Movie
-import com.gpillaca.upcomingmovies.model.database.MovieDao
+import com.gpillaca.upcomingmovies.data.database.Movie
+import com.gpillaca.upcomingmovies.data.database.MovieDao
 import kotlinx.coroutines.flow.Flow
 
 class MovieLocalDataSource(

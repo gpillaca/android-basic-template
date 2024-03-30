@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.model
+package com.gpillaca.upcomingmovies.data
 
 import retrofit2.HttpException
 import okio.IOException

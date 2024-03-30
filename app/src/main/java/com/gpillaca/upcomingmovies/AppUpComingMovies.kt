@@ -2,7 +2,7 @@ package com.gpillaca.upcomingmovies
 
 import android.app.Application
 import androidx.room.Room
-import com.gpillaca.upcomingmovies.model.database.MovieDataBase
+import com.gpillaca.upcomingmovies.data.database.MovieDataBase
 
 class AppUpComingMovies: Application() {
 

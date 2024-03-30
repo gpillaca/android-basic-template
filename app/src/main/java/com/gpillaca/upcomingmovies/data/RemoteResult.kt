@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.model
+package com.gpillaca.upcomingmovies.data
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

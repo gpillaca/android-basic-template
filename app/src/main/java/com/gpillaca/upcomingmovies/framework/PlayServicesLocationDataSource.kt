@@ -12,9 +12,12 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.gpillaca.upcomingmovies.data.datasource.LocationDataSource
 import kotlinx.coroutines.suspendCancellableCoroutine
+import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class PlayServicesLocationDataSource(application: Application) : LocationDataSource {
+class PlayServicesLocationDataSource @Inject constructor(
+    application: Application
+) : LocationDataSource {
 
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(application)

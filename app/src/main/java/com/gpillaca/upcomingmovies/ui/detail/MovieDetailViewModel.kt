@@ -1,23 +1,28 @@
 package com.gpillaca.upcomingmovies.ui.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.usecase.FindMovieUseCase
 import com.gpillaca.upcomingmovies.usecase.SwitchMovieFavoriteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieDetailViewModel(
-    private val movieId: Int,
+@HiltViewModel
+class MovieDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val findMovieUseCase: FindMovieUseCase,
     private val switchMovieFavoriteUseCase: SwitchMovieFavoriteUseCase
 ): ViewModel() {
 
     data class UiState(val movie: Movie? = null)
+
+    private val movieId = MovieDetailFragmentArgs.fromSavedStateHandle(savedStateHandle).movieId
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -36,17 +41,5 @@ class MovieDetailViewModel(
                 switchMovieFavoriteUseCase(it)
             }
         }
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-class MovieDetailViewModelFactory(
-    private val movieId: Int,
-    private val findMovieUseCase: FindMovieUseCase,
-    private val switchMovieFavoriteUseCase: SwitchMovieFavoriteUseCase
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MovieDetailViewModel(movieId, findMovieUseCase, switchMovieFavoriteUseCase) as T
     }
 }

@@ -2,8 +2,9 @@ package com.gpillaca.upcomingmovies.usecase
 
 import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.data.repository.MovieRepository
+import javax.inject.Inject
 
-class SwitchMovieFavoriteUseCase(
+class SwitchMovieFavoriteUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
 

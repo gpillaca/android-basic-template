@@ -1,11 +1,10 @@
 package com.gpillaca.upcomingmovies.framework.database
 
-import com.gpillaca.upcomingmovies.framework.database.MovieDB
-import com.gpillaca.upcomingmovies.framework.database.MovieDao
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MovieRoomDataSource(
+class MovieRoomDataSource @Inject constructor(
     private val movieDao: MovieDao
 ) : MovieLocalDataSource {
 

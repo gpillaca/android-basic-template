@@ -9,54 +9,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.gpillaca.upcomingmovies.AppUpComingMovies
 import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.ui.common.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.FragmentMovieDetailBinding
-import com.gpillaca.upcomingmovies.data.repository.MovieRepository
-import com.gpillaca.upcomingmovies.data.repository.RegionRepository
 import com.gpillaca.upcomingmovies.domain.Movie
-import com.gpillaca.upcomingmovies.framework.AndroidPermissionChecker
-import com.gpillaca.upcomingmovies.framework.database.MovieRoomDataSource
-import com.gpillaca.upcomingmovies.framework.server.MovieServerDataSource
-import com.gpillaca.upcomingmovies.framework.PlayServicesLocationDataSource
 import com.gpillaca.upcomingmovies.ui.common.loadUrl
-import com.gpillaca.upcomingmovies.usecase.FindMovieUseCase
-import com.gpillaca.upcomingmovies.usecase.SwitchMovieFavoriteUseCase
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
-
-    private val safeArgs: MovieDetailFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentMovieDetailBinding
 
-    private val movieDetailViewModel: MovieDetailViewModel by viewModels {
-        val regionRepository by lazy {
-            RegionRepository(
-                AndroidPermissionChecker(requireActivity().application),
-                PlayServicesLocationDataSource(requireActivity().application)
-            )
-        }
-        val movieDao = (requireActivity().application as AppUpComingMovies).db.movieDao()
-        val movieLocalDataSource = MovieRoomDataSource(movieDao)
-        val movieRemoteDataSource = MovieServerDataSource(BuildConfig.API_KEY)
-
-        val movieRepository by lazy {
-            MovieRepository(regionRepository, movieLocalDataSource, movieRemoteDataSource)
-        }
-
-        val findMovieUseCase by lazy {
-            FindMovieUseCase(movieRepository)
-        }
-
-        val switchMovieFavoriteUseCase by lazy {
-            SwitchMovieFavoriteUseCase(movieRepository)
-        }
-        MovieDetailViewModelFactory(safeArgs.movieId, findMovieUseCase, switchMovieFavoriteUseCase)
-    }
+    private val movieDetailViewModel: MovieDetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

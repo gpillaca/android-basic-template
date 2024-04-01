@@ -5,8 +5,11 @@ import android.app.Application
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.gpillaca.upcomingmovies.data.PermissionChecker
+import javax.inject.Inject
 
-class AndroidPermissionChecker(private val application: Application) : PermissionChecker {
+class AndroidPermissionChecker @Inject constructor(
+    private val application: Application
+) : PermissionChecker {
 
     override fun check(permission: PermissionChecker.Permission): Boolean =
         ContextCompat.checkSelfPermission(

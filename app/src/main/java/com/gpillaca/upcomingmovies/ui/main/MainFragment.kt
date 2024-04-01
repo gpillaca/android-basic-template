@@ -9,53 +9,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.gpillaca.upcomingmovies.AppUpComingMovies
-import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.FragmentMainBinding
-import com.gpillaca.upcomingmovies.data.repository.MovieRepository
-import com.gpillaca.upcomingmovies.data.repository.RegionRepository
-import com.gpillaca.upcomingmovies.framework.AndroidPermissionChecker
-import com.gpillaca.upcomingmovies.framework.database.MovieRoomDataSource
-import com.gpillaca.upcomingmovies.framework.server.MovieServerDataSource
-import com.gpillaca.upcomingmovies.framework.PlayServicesLocationDataSource
-import com.gpillaca.upcomingmovies.usecase.GetPopularMoviesUseCase
-import com.gpillaca.upcomingmovies.usecase.RequestPopularMoviesUseCase
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private lateinit var binding: FragmentMainBinding
 
-    private val mainViewModel: MainViewModel by viewModels {
-        val application = requireActivity().applicationContext as AppUpComingMovies
-
-        val regionRepository by lazy {
-            RegionRepository(
-                AndroidPermissionChecker(application),
-                PlayServicesLocationDataSource(application)
-            )
-        }
-        val movieDao = application.db.movieDao()
-        val movieLocalDataSource = MovieRoomDataSource(movieDao)
-        val remoteDataSource = MovieServerDataSource(BuildConfig.API_KEY)
-
-        val movieRepository by lazy {
-            MovieRepository(regionRepository, movieLocalDataSource, remoteDataSource)
-        }
-
-        val requestPopularMoviesUseCase by lazy {
-            RequestPopularMoviesUseCase(movieRepository)
-        }
-
-        val getPopularMoviesUseCase by lazy {
-            GetPopularMoviesUseCase(movieRepository)
-        }
-
-        MainViewModelFactory(requestPopularMoviesUseCase, getPopularMoviesUseCase)
-    }
+    private val mainViewModel: MainViewModel by viewModels()
 
     private val adapter = MoviesAdapter{ movie ->
         mainState.onMovieClick(movie.id)

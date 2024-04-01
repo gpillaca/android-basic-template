@@ -9,8 +9,9 @@ import kotlinx.coroutines.withContext
 import com.gpillaca.upcomingmovies.framework.database.MovieDB
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
 import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
+import javax.inject.Inject
 
-class MovieRepository(
+class MovieRepository @Inject constructor(
     private val regionRepository: RegionRepository,
     private val movieLocalDataSource: MovieLocalDataSource,
     private val movieRemoteDataSource: MovieRemoteDataSource

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -20,9 +22,9 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField( "String", "HOST", "\"https://api.themoviedb.org/3/\"")
-        buildConfigField("String", "HOST_IMAGE", "\"https://image.tmdb.org/t/p/\"")
-        buildConfigField("String", "API_KEY", "\"d30e1f350220f9aad6c4110df385d380\"")
+        buildConfigField( "String", "HOST", getLocalProperty("HOST"))
+        buildConfigField("String", "HOST_IMAGE", getLocalProperty("HOST_IMAGE"))
+        buildConfigField("String", "API_KEY", getLocalProperty("API_KEY"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -93,4 +95,34 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+/**
+ * Convenience method to obtain a property from `$projectRoot/local.properties` file
+ * without passing the project param
+ */
+fun Project.getLocalProperty(propertyName: String): String {
+    return getLocalProperty(propertyName, this)
+}
+
+/**
+ * Util to obtain property declared on `$projectRoot/local.properties` file.
+ *
+ *  @param propertyName the name of declared property
+ * @param project the project reference
+ *
+ * @return the value of property name, otherwise throw [Exception]
+ */
+fun getLocalProperty(propertyName: String, project: Project): String {
+    val localProperties = Properties().apply {
+        val localPropertiesFile = project.rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            load(localPropertiesFile.inputStream())
+        }
+    }
+    return localProperties.getProperty(propertyName)?.let {
+        it
+    } ?: run {
+        throw InvalidUserDataException("You should define $propertyName in local.properties.")
+    }
 }

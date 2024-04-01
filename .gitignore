@@ -13,4 +13,7 @@
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+# Local configuration file (sdk path, etc)
+# remove '#' from 'local.properties' in real project
+#local.properties

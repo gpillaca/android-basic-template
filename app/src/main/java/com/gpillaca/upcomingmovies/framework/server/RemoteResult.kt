@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.data
+package com.gpillaca.upcomingmovies.framework.server
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -6,13 +6,13 @@ import kotlinx.parcelize.Parcelize
 
 data class RemoteResult(
     val page: Int,
-    val results: List<Movie>,
+    val results: List<MovieResponse>,
     @SerializedName("total_pages") val totalPages: Int,
     @SerializedName("total_results") val totalResults: Int
 )
 
 @Parcelize
-data class Movie(
+data class MovieResponse(
     val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
     //@SerializedName("genre_ids") val genreIds: List<Int>,

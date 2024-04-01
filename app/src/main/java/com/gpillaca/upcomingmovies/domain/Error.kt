@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.data
+package com.gpillaca.upcomingmovies.domain
 
 import retrofit2.HttpException
 import okio.IOException

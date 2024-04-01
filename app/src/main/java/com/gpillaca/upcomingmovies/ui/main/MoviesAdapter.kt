@@ -6,10 +6,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gpillaca.upcomingmovies.BuildConfig
-import com.gpillaca.upcomingmovies.Constants
+import com.gpillaca.upcomingmovies.ui.common.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.ViewMovieBinding
-import com.gpillaca.upcomingmovies.data.Movie
+import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.ui.common.basicDiffUtil
 import com.gpillaca.upcomingmovies.ui.common.inflate
 import com.gpillaca.upcomingmovies.ui.common.loadUrl

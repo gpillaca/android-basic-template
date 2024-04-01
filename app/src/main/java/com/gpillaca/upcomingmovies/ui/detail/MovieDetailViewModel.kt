@@ -3,8 +3,7 @@ package com.gpillaca.upcomingmovies.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.gpillaca.upcomingmovies.data.Movie
-import com.gpillaca.upcomingmovies.ui.main.toMovie
+import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.usecase.FindMovieUseCase
 import com.gpillaca.upcomingmovies.usecase.SwitchMovieFavoriteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,8 +24,8 @@ class MovieDetailViewModel(
 
     init {
         viewModelScope.launch {
-            findMovieUseCase(movieId).collect { movieDatabase ->
-                _state.value = UiState(movieDatabase.toMovie())
+            findMovieUseCase(movieId).collect { movie ->
+                _state.value = UiState(movie)
             }
         }
     }

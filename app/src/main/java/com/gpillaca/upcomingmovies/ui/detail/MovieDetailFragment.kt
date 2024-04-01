@@ -10,12 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.gpillaca.upcomingmovies.AppUpComingMovies
 import com.gpillaca.upcomingmovies.BuildConfig
-import com.gpillaca.upcomingmovies.Constants
+import com.gpillaca.upcomingmovies.ui.common.Constants
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.FragmentMovieDetailBinding
-import com.gpillaca.upcomingmovies.data.Movie
 import com.gpillaca.upcomingmovies.data.repository.MovieRepository
+import com.gpillaca.upcomingmovies.data.repository.RegionRepository
+import com.gpillaca.upcomingmovies.domain.Movie
+import com.gpillaca.upcomingmovies.framework.AndroidPermissionChecker
+import com.gpillaca.upcomingmovies.framework.database.MovieRoomDataSource
+import com.gpillaca.upcomingmovies.framework.server.MovieServerDataSource
+import com.gpillaca.upcomingmovies.framework.PlayServicesLocationDataSource
 import com.gpillaca.upcomingmovies.ui.common.loadUrl
 import com.gpillaca.upcomingmovies.usecase.FindMovieUseCase
 import com.gpillaca.upcomingmovies.usecase.SwitchMovieFavoriteUseCase
@@ -27,19 +33,28 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
     private lateinit var binding: FragmentMovieDetailBinding
 
-    private val movieRepository by lazy {
-        MovieRepository(requireActivity().application)
-    }
-
-    private val findMovieUseCase by lazy {
-        FindMovieUseCase(movieRepository)
-    }
-
-    private val switchMovieFavoriteUseCase by lazy {
-        SwitchMovieFavoriteUseCase(movieRepository)
-    }
-
     private val movieDetailViewModel: MovieDetailViewModel by viewModels {
+        val regionRepository by lazy {
+            RegionRepository(
+                AndroidPermissionChecker(requireActivity().application),
+                PlayServicesLocationDataSource(requireActivity().application)
+            )
+        }
+        val movieDao = (requireActivity().application as AppUpComingMovies).db.movieDao()
+        val movieLocalDataSource = MovieRoomDataSource(movieDao)
+        val movieRemoteDataSource = MovieServerDataSource(BuildConfig.API_KEY)
+
+        val movieRepository by lazy {
+            MovieRepository(regionRepository, movieLocalDataSource, movieRemoteDataSource)
+        }
+
+        val findMovieUseCase by lazy {
+            FindMovieUseCase(movieRepository)
+        }
+
+        val switchMovieFavoriteUseCase by lazy {
+            SwitchMovieFavoriteUseCase(movieRepository)
+        }
         MovieDetailViewModelFactory(safeArgs.movieId, findMovieUseCase, switchMovieFavoriteUseCase)
     }
 
@@ -70,8 +85,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     private fun showMovieDetail(movie: Movie) {
         binding.movieDetailToolbar.title = movie.title
 
-        val background = movie.backdropPath ?: movie.posterPath
-        binding.movieDetailImage.loadUrl("${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_BACKGROUND}$background")
+        val background = "${BuildConfig.HOST_IMAGE}${Constants.PATH_IMAGE_BACKGROUND}${movie.backdropPath}"
+        binding.movieDetailImage.loadUrl(background)
         binding.movieDetailSummary.text = movie.overview
         binding.movieDetailInfo.setMovieInfo(movie)
 

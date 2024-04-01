@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.data
+package com.gpillaca.upcomingmovies.framework.server
 
 import retrofit2.http.GET
 import retrofit2.http.Query

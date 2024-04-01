@@ -1,46 +1,23 @@
 package com.gpillaca.upcomingmovies.data.repository
 
-import android.Manifest
-import android.app.Application
-import android.location.Geocoder
-import android.location.Location
 import com.gpillaca.upcomingmovies.data.datasource.LocationDataSource
 import com.gpillaca.upcomingmovies.data.PermissionChecker
-import com.gpillaca.upcomingmovies.data.datasource.PlayServicesLocationDataSource
+import com.gpillaca.upcomingmovies.data.PermissionChecker.Permission.COARSE_LOCATION
 
 class RegionRepository(
-    private val application: Application
+    private val permissionChecker: PermissionChecker,
+    private val locationDataSource: LocationDataSource
 ) {
 
     companion object {
         private const val DEFAULT_REGION = "US"
     }
 
-    private val locationDataSource: LocationDataSource by lazy {
-        PlayServicesLocationDataSource(application)
-    }
-
-    private val coarsePermissionChecker = PermissionChecker(
-        application,
-        Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-
-    suspend fun findLastRegion() = getRegionFromLocation(findLastLocation())
-
-    private suspend fun findLastLocation(): Location? {
-        val isGranted = coarsePermissionChecker.check()
-        return if (isGranted) locationDataSource.findLastLocation() else null
-    }
-
-    private fun getRegionFromLocation(location: Location?): String {
-        val geocoder = Geocoder(application)
-        val fromLocation = location?.let {
-            geocoder.getFromLocation(
-                location.latitude,
-                location.longitude,
-                1
-            )
+    suspend fun findLastRegion(): String {
+        return if (permissionChecker.check(COARSE_LOCATION)) {
+            locationDataSource.findLastRegion() ?: DEFAULT_REGION
+        } else {
+            DEFAULT_REGION
         }
-        return fromLocation?.firstOrNull()?.countryCode ?: DEFAULT_REGION
     }
 }

@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies
+package com.gpillaca.upcomingmovies.ui.common
 
 object Constants {
     const val PATH_IMAGE_POSTER = "w185"

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.gpillaca.upcomingmovies.data.Movie
+import com.gpillaca.upcomingmovies.domain.Movie
 
 class MovieDetailInfoView @JvmOverloads constructor(
     context: Context,

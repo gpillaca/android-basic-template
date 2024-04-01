@@ -3,10 +3,9 @@ package com.gpillaca.upcomingmovies.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.gpillaca.upcomingmovies.data.Error
-import com.gpillaca.upcomingmovies.data.database.Movie as MovieDatabase
-import com.gpillaca.upcomingmovies.data.Movie
-import com.gpillaca.upcomingmovies.data.toError
+import com.gpillaca.upcomingmovies.domain.Error
+import com.gpillaca.upcomingmovies.domain.Movie
+import com.gpillaca.upcomingmovies.domain.toError
 import com.gpillaca.upcomingmovies.usecase.GetPopularMoviesUseCase
 import com.gpillaca.upcomingmovies.usecase.RequestPopularMoviesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +36,7 @@ class MainViewModel(
                     _state.update { it.copy(error = cause.toError()) }
                 }
                 .collect { movies ->
-                    _state.update { UiState(movies = movies.toMovieList()) }
+                    _state.update { UiState(movies = movies) }
                 }
         }
     }
@@ -62,26 +61,3 @@ class MainViewModelFactory(
     }
 
 }
-
-private fun List<MovieDatabase>.toMovieList(): List<Movie> {
-    return map { movie ->
-        movie.toMovie()
-    }
-}
-
-fun MovieDatabase.toMovie() = Movie(
-    adult,
-    backdropPath,
-    id,
-    originalLanguage,
-    originalTitle,
-    overview,
-    popularity,
-    posterPath,
-    releaseDate,
-    title,
-    video,
-    voteAverage,
-    voteCount,
-    favorite
-)

@@ -6,8 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.gpillaca.upcomingmovies.data.Error
 import com.gpillaca.upcomingmovies.data.database.Movie as MovieDatabase
 import com.gpillaca.upcomingmovies.data.Movie
-import com.gpillaca.upcomingmovies.data.repository.MovieRepository
 import com.gpillaca.upcomingmovies.data.toError
+import com.gpillaca.upcomingmovies.usecase.GetPopularMoviesUseCase
+import com.gpillaca.upcomingmovies.usecase.RequestPopularMoviesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val movieRepository: MovieRepository
+    private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
+    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
 ) : ViewModel() {
 
     data class UiState(
@@ -30,7 +32,7 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            movieRepository.popularMovies
+            getPopularMoviesUseCase()
                 .catch { cause ->
                     _state.update { it.copy(error = cause.toError()) }
                 }
@@ -43,7 +45,7 @@ class MainViewModel(
     fun onUiReady() {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
-            val error = movieRepository.requestPopularMovies()
+            val error = requestPopularMoviesUseCase()
             _state.update { _state.value.copy(loading = false, error = error) }
         }
     }
@@ -51,11 +53,12 @@ class MainViewModel(
 
 @Suppress("UNCHECKED_CAST")
 class MainViewModelFactory(
-    private val movieRepository: MovieRepository
+    private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
+    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(movieRepository) as T
+        return MainViewModel(requestPopularMoviesUseCase, getPopularMoviesUseCase) as T
     }
 
 }

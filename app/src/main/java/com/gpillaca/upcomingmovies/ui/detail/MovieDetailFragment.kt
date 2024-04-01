@@ -17,6 +17,8 @@ import com.gpillaca.upcomingmovies.databinding.FragmentMovieDetailBinding
 import com.gpillaca.upcomingmovies.data.Movie
 import com.gpillaca.upcomingmovies.data.repository.MovieRepository
 import com.gpillaca.upcomingmovies.ui.common.loadUrl
+import com.gpillaca.upcomingmovies.usecase.FindMovieUseCase
+import com.gpillaca.upcomingmovies.usecase.SwitchMovieFavoriteUseCase
 import kotlinx.coroutines.launch
 
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
@@ -29,8 +31,16 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         MovieRepository(requireActivity().application)
     }
 
+    private val findMovieUseCase by lazy {
+        FindMovieUseCase(movieRepository)
+    }
+
+    private val switchMovieFavoriteUseCase by lazy {
+        SwitchMovieFavoriteUseCase(movieRepository)
+    }
+
     private val movieDetailViewModel: MovieDetailViewModel by viewModels {
-        MovieDetailViewModelFactory(safeArgs.movieId, movieRepository)
+        MovieDetailViewModelFactory(safeArgs.movieId, findMovieUseCase, switchMovieFavoriteUseCase)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

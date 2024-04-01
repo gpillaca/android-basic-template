@@ -12,6 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.databinding.FragmentMainBinding
 import com.gpillaca.upcomingmovies.data.repository.MovieRepository
+import com.gpillaca.upcomingmovies.usecase.GetPopularMoviesUseCase
+import com.gpillaca.upcomingmovies.usecase.RequestPopularMoviesUseCase
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -24,8 +26,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         MovieRepository(requireActivity().application)
     }
 
+    private val requestPopularMoviesUseCase by lazy {
+        RequestPopularMoviesUseCase(movieRepository)
+    }
+
+    private val getPopularMoviesUseCase by lazy {
+        GetPopularMoviesUseCase(movieRepository)
+    }
+
     private val mainViewModel: MainViewModel by viewModels {
-        MainViewModelFactory(movieRepository)
+        MainViewModelFactory(requestPopularMoviesUseCase, getPopularMoviesUseCase)
     }
 
     private val adapter = MoviesAdapter{ movie ->

@@ -3,6 +3,7 @@ package com.gpillaca.upcomingmovies.data.repository
 import com.gpillaca.upcomingmovies.data.datasource.LocationDataSource
 import com.gpillaca.upcomingmovies.data.PermissionChecker
 import com.gpillaca.upcomingmovies.data.PermissionChecker.Permission.COARSE_LOCATION
+import com.gpillaca.upcomingmovies.ui.common.InternetConnectionChecker
 import javax.inject.Inject
 
 /**
@@ -10,7 +11,8 @@ import javax.inject.Inject
  */
 class RegionRepository @Inject constructor(
     private val permissionChecker: PermissionChecker,
-    private val locationDataSource: LocationDataSource
+    private val locationDataSource: LocationDataSource,
+    private  val internetConnectionChecker: InternetConnectionChecker
 ) {
 
     companion object {
@@ -18,7 +20,7 @@ class RegionRepository @Inject constructor(
     }
 
     suspend fun findLastRegion(): String {
-        return if (permissionChecker.check(COARSE_LOCATION)) {
+        return if (permissionChecker.check(COARSE_LOCATION) && internetConnectionChecker.isInternetAvailable()) {
             locationDataSource.findLastRegion() ?: DEFAULT_REGION
         } else {
             DEFAULT_REGION

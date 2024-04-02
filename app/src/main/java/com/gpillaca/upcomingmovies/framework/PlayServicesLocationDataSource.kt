@@ -42,6 +42,7 @@ class PlayServicesLocationDataSource @Inject constructor(
         return addresses?.firstOrNull()?.countryCode
     }
 
+    @Suppress("DEPRECATION")
     private suspend fun getFromLocationCompat(
         @FloatRange(from = -90.0, to = 90.0) latitude: Double,
         @FloatRange(from = -180.0, to = 180.0) longitude: Double,

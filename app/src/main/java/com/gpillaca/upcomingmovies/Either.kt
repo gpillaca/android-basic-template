@@ -1,8 +1,11 @@
 package com.gpillaca.upcomingmovies
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
+
 sealed class Either<out ErrorType, out ResultType> {
-    class Left<ErrorType>(val error: ErrorType) : Either<ErrorType, Nothing>()
-    class Right<ResultType>(val value: ResultType) : Either<Nothing, ResultType>()
+    data class Left<ErrorType>(val error: ErrorType) : Either<ErrorType, Nothing>()
+    data class Right<ResultType>(val value: ResultType) : Either<Nothing, ResultType>()
 
     inline fun <T> fold(ifLeft: (ErrorType) -> T, ifRight: (ResultType) -> T): T =
         when (this) {
@@ -11,28 +14,21 @@ sealed class Either<out ErrorType, out ResultType> {
         }
 
     @JvmName("mapRight")
-    fun <NewResultType> map(
-        ifRight: (ResultType) -> NewResultType
+    inline fun <NewResultType> map(
+        functionRight: (ResultType) -> NewResultType
     ): Either<ErrorType, NewResultType> {
         return when (this) {
             is Left -> this
-            is Right -> Right(ifRight(this.value))
-        }
-    }
-
-    suspend fun <NewResultType> mapSuspendable(ifRight: suspend (ResultType) -> NewResultType): Either<ErrorType, NewResultType> {
-        return when (this) {
-            is Left -> this
-            is Right -> Right(ifRight(this.value))
+            is Right -> Right(functionRight(this.value))
         }
     }
 
     @JvmName("mapLeft")
-    fun <NewErrorType> map(
-        ifLeft: (ErrorType) -> NewErrorType
+    inline fun <NewErrorType> map(
+        functionLeft: (ErrorType) -> NewErrorType
     ): Either<NewErrorType, ResultType> {
         return when (this) {
-            is Left -> Left(ifLeft(this.error))
+            is Left -> Left(functionLeft(this.error))
             is Right -> this
         }
     }
@@ -46,13 +42,29 @@ sealed class Either<out ErrorType, out ResultType> {
             is Left -> errorTransformation(error)
         }
     }
+
+    @OptIn(ExperimentalContracts::class)
+    fun isLeft(): Boolean {
+        contract { returns(true) implies (this@Either is Left<ErrorType>) }
+        return this@Either is Left<ErrorType>
+    }
+
+    @OptIn(ExperimentalContracts::class)
+    fun isRight(): Boolean {
+        contract { returns(true) implies (this@Either is Right<ResultType>) }
+        return this@Either is Right<ResultType>
+    }
+
+    inline fun onLeft(
+        function: (failure: ErrorType) -> Unit
+    ): Either<ErrorType, ResultType> =
+        also { if (it.isLeft()) function(it.error) }
+
+    inline fun onRight(
+        function: (success: ResultType) -> Unit
+    ): Either<ErrorType, ResultType> =
+        also { if (it.isRight()) function(it.value) }
 }
-
-inline fun <ErrorType, ResultType> Either<ErrorType, ResultType>.onLeft(function: (failure: ErrorType) -> Unit): Either<ErrorType, ResultType> =
-    this.apply { if (this is Either.Left) function(error) }
-
-inline fun <ErrorType, ResultType> Either<ErrorType, ResultType>.onRight(function: (success: ResultType) -> Unit): Either<ErrorType, ResultType> =
-    this.apply { if (this is Either.Right) function(value) }
 
 fun <ErrorType> ErrorType.left(): Either<ErrorType, Nothing> = Either.Left(this)
 

@@ -6,7 +6,7 @@ import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
 import com.gpillaca.upcomingmovies.di.ApiKey
 import com.gpillaca.upcomingmovies.domain.Error
 import com.gpillaca.upcomingmovies.domain.Movie
-import com.gpillaca.upcomingmovies.domain.tryCall
+import com.gpillaca.upcomingmovies.domain.catch
 import javax.inject.Inject
 
 class MovieServerDataSource @Inject constructor(
@@ -15,7 +15,7 @@ class MovieServerDataSource @Inject constructor(
     private val remoteService: RemoteService
 ) : MovieRemoteDataSource {
 
-    override suspend fun findPopularMovies(region: String): Either<Error, List<Movie>> = tryCall {
+    override suspend fun findPopularMovies(region: String): Either<Error, List<Movie>> = catch {
         val movieResponseList = remoteService.listPopularMovies(apiKey, region).results
         movieMapper.fromResponseToMovieListDomain(movieResponseList)
     }

@@ -7,9 +7,9 @@ import retrofit2.HttpException
 import okio.IOException
 
 sealed interface Error {
-    class Server(val code: Int): Error
-    object Connectivity: Error
-    class Unknown(val message: String): Error
+    data class Server(val code: Int): Error
+    data object Connectivity: Error
+    data class Unknown(val message: String): Error
 }
 
 fun Throwable.toError() = when(this) {
@@ -18,8 +18,9 @@ fun Throwable.toError() = when(this) {
     else -> Error.Unknown(message ?: "")
 }
 
-inline fun <T> tryCall(action: () -> T): Either<Error, T> = try {
-    action().right()
-} catch (e: Exception) {
-    e.toError().left()
+@JvmName("tryCatch")
+inline fun <T> catch(function: () -> T): Either<Error, T> = try {
+    function().right()
+} catch (exception: Exception) {
+    exception.toError().left()
 }

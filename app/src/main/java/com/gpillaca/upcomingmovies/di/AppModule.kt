@@ -1,6 +1,7 @@
 package com.gpillaca.upcomingmovies.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.gpillaca.upcomingmovies.BuildConfig
 import com.gpillaca.upcomingmovies.MovieMapper
@@ -14,10 +15,13 @@ import com.gpillaca.upcomingmovies.framework.database.MovieDataBase
 import com.gpillaca.upcomingmovies.framework.database.MovieRoomDataSource
 import com.gpillaca.upcomingmovies.framework.server.MovieServerDataSource
 import com.gpillaca.upcomingmovies.framework.server.RemoteService
+import com.gpillaca.upcomingmovies.ui.common.AppInternetConnectionChecker
+import com.gpillaca.upcomingmovies.ui.common.InternetConnectionChecker
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -74,6 +78,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMovieMapper() = MovieMapper
+
+    @Provides
+    fun provideInternetConnectionChecker(@ApplicationContext appContext: Context): InternetConnectionChecker {
+        return AppInternetConnectionChecker(context = appContext)
+    }
 
 }
 

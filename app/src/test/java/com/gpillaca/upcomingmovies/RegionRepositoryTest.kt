@@ -4,6 +4,7 @@ import com.gpillaca.upcomingmovies.data.PermissionChecker
 import com.gpillaca.upcomingmovies.data.PermissionChecker.Permission.COARSE_LOCATION
 import com.gpillaca.upcomingmovies.data.datasource.LocationDataSource
 import com.gpillaca.upcomingmovies.data.repository.RegionRepository
+import com.gpillaca.upcomingmovies.ui.common.InternetConnectionChecker
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -25,11 +26,14 @@ class RegionRepositoryTest {
     @Mock
     lateinit var locationDataSource: LocationDataSource
 
-    lateinit var regionRepository: RegionRepository
+    @Mock
+    lateinit var internetConnectionChecker: InternetConnectionChecker
+
+    private lateinit var regionRepository: RegionRepository
 
     @Before
     fun setUp() {
-        regionRepository = RegionRepository(permissionChecker, locationDataSource)
+        regionRepository = RegionRepository(permissionChecker, locationDataSource, internetConnectionChecker)
     }
 
     @Test
@@ -43,6 +47,7 @@ class RegionRepositoryTest {
     @Test
     fun `Returns region from location data source when permission granted`(): Unit = runBlocking {
         whenever(permissionChecker.check(COARSE_LOCATION)).thenReturn(true)
+        whenever(internetConnectionChecker.isInternetAvailable()).thenReturn(true)
         whenever(locationDataSource.findLastRegion()).thenReturn(ES_REGION)
 
         val region = regionRepository.findLastRegion()

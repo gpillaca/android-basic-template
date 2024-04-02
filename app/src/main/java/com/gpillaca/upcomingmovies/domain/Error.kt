@@ -1,8 +1,10 @@
 package com.gpillaca.upcomingmovies.domain
 
+import com.gpillaca.upcomingmovies.Either
+import com.gpillaca.upcomingmovies.left
+import com.gpillaca.upcomingmovies.right
 import retrofit2.HttpException
 import okio.IOException
-
 
 sealed interface Error {
     class Server(val code: Int): Error
@@ -16,9 +18,8 @@ fun Throwable.toError() = when(this) {
     else -> Error.Unknown(message ?: "")
 }
 
-inline fun <T> tryCall(action: () -> T): Error? = try {
-    action()
-    null
+inline fun <T> tryCall(action: () -> T): Either<Error, T> = try {
+    action().right()
 } catch (e: Exception) {
-    e.toError()
+    e.toError().left()
 }

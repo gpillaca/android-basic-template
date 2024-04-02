@@ -2,10 +2,9 @@ package com.gpillaca.upcomingmovies.data.repository
 
 import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.domain.tryCall
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
 import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
+import com.gpillaca.upcomingmovies.domain.Error
 import javax.inject.Inject
 
 /**
@@ -19,13 +18,14 @@ class MovieRepository @Inject constructor(
 
     val popularMovies = movieLocalDataSource.movies
 
-    suspend fun requestPopularMovies() = withContext(Dispatchers.IO) {
-        tryCall {
-            if (movieLocalDataSource.isEmpty()) {
-                val movies: List<Movie> = movieRemoteDataSource.findPopularMovies(regionRepository.findLastRegion())
-                movieLocalDataSource.save(movies)
+    suspend fun requestPopularMovies(): Error? {
+        if (movieLocalDataSource.isEmpty()) {
+            val movies = movieRemoteDataSource.findPopularMovies(regionRepository.findLastRegion())
+            movies.fold(ifLeft = { it }) {
+                movieLocalDataSource.save(it)
             }
         }
+        return null
     }
 
     fun findMovie(id: Int) = movieLocalDataSource.findMovie(id)

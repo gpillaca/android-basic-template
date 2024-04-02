@@ -53,11 +53,11 @@ class MovieRepositoryTest {
     }
 
     @Test
-    fun `Popular movies are saved to local data source when it's empty`() = runBlocking {
+    fun `Popular movies are saved to local data source when it's empty`(): Unit = runBlocking {
         val movies = listOf(movieStub.copy(id = 5))
         whenever(localDataSource.isEmpty()).thenReturn(true)
         whenever(regionRepository.findLastRegion()).thenReturn(DEFAULT_REGION)
-        whenever(remoteDataSource.findPopularMovies(any())).thenReturn(movies)
+        whenever(remoteDataSource.findPopularMovies(any())).thenReturn(movies.right())
 
         moviesRepository.requestPopularMovies()
 
@@ -65,7 +65,7 @@ class MovieRepositoryTest {
     }
 
     @Test
-    fun `finding a movie by id is done in local data source`() = runBlocking {
+    fun `finding a movie by id is done in local data source`(): Unit = runBlocking {
         val movie = flowOf(movieStub.copy(id = 5))
         whenever(localDataSource.findMovie(5)).thenReturn(movie)
 
@@ -75,7 +75,7 @@ class MovieRepositoryTest {
     }
 
     @Test
-    fun `Switching favorite updates local data source`() = runBlocking {
+    fun `Switching favorite updates local data source`(): Unit = runBlocking {
         val movie = movieStub.copy(id = 5)
 
         moviesRepository.switchFavorite(movie)
@@ -84,7 +84,7 @@ class MovieRepositoryTest {
     }
 
     @Test
-    fun `Switching favorite marks as favorite an unfavorite movie`() = runBlocking {
+    fun `Switching favorite marks as favorite an unfavorite movie`(): Unit = runBlocking {
         val movie = movieStub.copy(favorite = false)
 
         moviesRepository.switchFavorite(movie)
@@ -93,7 +93,7 @@ class MovieRepositoryTest {
     }
 
     @Test
-    fun `Switching favorite marks as unfavorite an favorite movie`() = runBlocking {
+    fun `Switching favorite marks as unfavorite an favorite movie`(): Unit = runBlocking {
         val movie = movieStub.copy(favorite = true)
 
         moviesRepository.switchFavorite(movie)

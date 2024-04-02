@@ -33,7 +33,7 @@ class RegionRepositoryTest {
     }
 
     @Test
-    fun `Returns default region when coarse permission not granted`() = runBlocking {
+    fun `Returns default region when coarse permission not granted`(): Unit = runBlocking {
         whenever(permissionChecker.check(COARSE_LOCATION)).thenReturn(false)
         val region = regionRepository.findLastRegion()
 
@@ -41,7 +41,7 @@ class RegionRepositoryTest {
     }
 
     @Test
-    fun `Returns region from location data source when permission granted`() = runBlocking {
+    fun `Returns region from location data source when permission granted`(): Unit = runBlocking {
         whenever(permissionChecker.check(COARSE_LOCATION)).thenReturn(true)
         whenever(locationDataSource.findLastRegion()).thenReturn(ES_REGION)
 

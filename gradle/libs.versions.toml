@@ -22,6 +22,7 @@ androidx-test-espresso-core = "3.5.1"
 coroutines = "1.7.1"
 mockito-kotlin = "5.2.0"
 mockito-inline = "5.2.0"
+cash-turbine = "0.13.0"
 
 #Plugins
 android-gradle-plugin = "8.2.0"
@@ -72,6 +73,7 @@ mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", versio
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito-inline"}
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines"}
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines"}
+cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "cash-turbine"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

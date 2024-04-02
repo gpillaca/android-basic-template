@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Test class [MainViewModelTest]
+ */
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,

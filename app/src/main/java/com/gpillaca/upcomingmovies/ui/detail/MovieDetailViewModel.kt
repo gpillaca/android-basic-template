@@ -1,8 +1,8 @@
 package com.gpillaca.upcomingmovies.ui.detail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gpillaca.upcomingmovies.di.MovieId
 import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.usecase.FindMovieUseCase
 import com.gpillaca.upcomingmovies.usecase.SwitchMovieFavoriteUseCase
@@ -18,14 +18,12 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    @MovieId private val movieId: Int,
     private val findMovieUseCase: FindMovieUseCase,
     private val switchMovieFavoriteUseCase: SwitchMovieFavoriteUseCase
 ): ViewModel() {
 
     data class UiState(val movie: Movie? = null)
-
-    private val movieId = MovieDetailFragmentArgs.fromSavedStateHandle(savedStateHandle).movieId
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()

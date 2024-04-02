@@ -23,7 +23,9 @@ class MovieRepository @Inject constructor(
             movieRemoteDataSource
                 .findPopularMovies(regionRepository.findLastRegion())
                 .onRight { movies ->
-                    movieLocalDataSource.save(movies)
+                    movieLocalDataSource.save(movies).onLeft { error ->
+                        return error
+                    }
                 }
                 .onLeft { error ->
                     return error

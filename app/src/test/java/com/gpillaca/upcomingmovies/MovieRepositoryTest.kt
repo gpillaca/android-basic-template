@@ -58,6 +58,7 @@ class MovieRepositoryTest {
         whenever(localDataSource.isEmpty()).thenReturn(true)
         whenever(regionRepository.findLastRegion()).thenReturn(DEFAULT_REGION)
         whenever(remoteDataSource.findPopularMovies(any())).thenReturn(movies.right())
+        whenever(localDataSource.save(movies)).thenReturn(Unit.right())
 
         moviesRepository.requestPopularMovies()
 

@@ -1,5 +1,6 @@
 package com.gpillaca.upcomingmovies.framework.database
 
+import com.gpillaca.upcomingmovies.Either
 import com.gpillaca.upcomingmovies.MovieMapper
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
 import com.gpillaca.upcomingmovies.domain.Error
@@ -18,10 +19,8 @@ class MovieRoomDataSource @Inject constructor(
         movieMapper.fromDBToMovieListDomain(it)
     }
 
-    override suspend fun save(movies: List<Movie>): Error? = catch {
+    override suspend fun save(movies: List<Movie>): Either<Error, Unit> = catch {
         movieDao.insertMovies(movieMapper.fromDomainToMoviesDatabase(movies))
-    }.fold(ifLeft = {it}) {
-        null
     }
 
     override suspend fun isEmpty(): Boolean = movieDao.movieCount() == 0

@@ -17,7 +17,11 @@ glide = "4.15.1"
 firebase-boom = "32.8.0"
 junit = "4.13.2"
 androidx-test-ext = "1.1.5"
+androidx-test-runner = "1.5.2"
 androidx-test-espresso-core = "3.5.1"
+coroutines = "1.7.1"
+mockito-kotlin = "5.2.0"
+mockito-inline = "5.2.0"
 
 #Plugins
 android-gradle-plugin = "8.2.0"
@@ -54,13 +58,20 @@ retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-android" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt-android" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt-android"}
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner"}
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidx-test-runner"}
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-test-espresso-core" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito-kotlin"}
+mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito-inline"}
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines"}
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
@@ -75,3 +86,4 @@ androidx-room = ["androidx-room-runtime", "androidx-room-ktx"]
 retrofit2 = ["retrofit2", "retrofit2-converter-gson", "okhttp3-logging-interceptor"]
 androidx-navigation = ["androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx"]
 firebase = ["firebase-analytics", "firebase-crashlytics"]
+mockito = ["mockito-kotlin", "mockito-inline"]

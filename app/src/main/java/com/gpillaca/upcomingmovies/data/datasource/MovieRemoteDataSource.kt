@@ -1,7 +1,7 @@
 package com.gpillaca.upcomingmovies.data.datasource
 
-import com.gpillaca.upcomingmovies.framework.server.MovieResponse
+import com.gpillaca.upcomingmovies.domain.Movie
 
 interface MovieRemoteDataSource {
-    suspend fun findPopularMovies(region: String): List<MovieResponse>
+    suspend fun findPopularMovies(region: String): List<Movie>
 }

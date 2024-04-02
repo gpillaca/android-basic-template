@@ -1,15 +1,16 @@
 package com.gpillaca.upcomingmovies.data.datasource
 
-import com.gpillaca.upcomingmovies.framework.database.MovieDB
+import com.gpillaca.upcomingmovies.domain.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface MovieLocalDataSource {
-    val movies: Flow<List<MovieDB>>
+    val movies: Flow<List<Movie>>
 
-    suspend fun save(movies: List<MovieDB>)
+    suspend fun save(movies: List<Movie>)
 
     suspend fun isEmpty(): Boolean
-    fun findMovie(id: Int): Flow<MovieDB>
 
-    suspend fun updateMovie(movie: MovieDB)
+    fun findMovie(id: Int): Flow<Movie>
+
+    suspend fun updateMovie(movie: Movie)
 }

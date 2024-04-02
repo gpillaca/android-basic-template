@@ -3,6 +3,7 @@ package com.gpillaca.upcomingmovies.di
 import android.app.Application
 import androidx.room.Room
 import com.gpillaca.upcomingmovies.BuildConfig
+import com.gpillaca.upcomingmovies.MovieMapper
 import com.gpillaca.upcomingmovies.data.PermissionChecker
 import com.gpillaca.upcomingmovies.data.datasource.LocationDataSource
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
@@ -12,11 +13,17 @@ import com.gpillaca.upcomingmovies.framework.PlayServicesLocationDataSource
 import com.gpillaca.upcomingmovies.framework.database.MovieDataBase
 import com.gpillaca.upcomingmovies.framework.database.MovieRoomDataSource
 import com.gpillaca.upcomingmovies.framework.server.MovieServerDataSource
+import com.gpillaca.upcomingmovies.framework.server.RemoteService
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -30,6 +37,11 @@ object AppModule {
 
     @Provides
     @Singleton
+    @ApiUrl
+    fun provideApiUrl(): String = BuildConfig.HOST
+
+    @Provides
+    @Singleton
     fun provideDatabase(app: Application) = Room.databaseBuilder(
         app,
         MovieDataBase::class.java,
@@ -39,6 +51,29 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMovieDao(db: MovieDataBase) = db.movieDao()
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient = HttpLoggingInterceptor().run {
+        level = HttpLoggingInterceptor.Level.BODY
+        OkHttpClient.Builder().addInterceptor(this).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteService(@ApiUrl apiUrl: String, okHttpClient: OkHttpClient): RemoteService {
+
+        return Retrofit.Builder()
+            .baseUrl(apiUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieMapper() = MovieMapper
 
 }
 

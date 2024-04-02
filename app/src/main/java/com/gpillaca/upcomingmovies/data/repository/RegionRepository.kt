@@ -5,6 +5,9 @@ import com.gpillaca.upcomingmovies.data.PermissionChecker
 import com.gpillaca.upcomingmovies.data.PermissionChecker.Permission.COARSE_LOCATION
 import javax.inject.Inject
 
+/**
+ * Test class [RegionRepositoryTest]
+ */
 class RegionRepository @Inject constructor(
     private val permissionChecker: PermissionChecker,
     private val locationDataSource: LocationDataSource

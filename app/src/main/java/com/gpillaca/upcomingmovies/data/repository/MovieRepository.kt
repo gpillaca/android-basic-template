@@ -1,10 +1,12 @@
 package com.gpillaca.upcomingmovies.data.repository
 
+import com.gpillaca.upcomingmovies.Either
 import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.domain.catch
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
 import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
 import com.gpillaca.upcomingmovies.domain.Error
+import com.gpillaca.upcomingmovies.left
 import javax.inject.Inject
 
 /**
@@ -18,22 +20,23 @@ class MovieRepository @Inject constructor(
 
     val popularMovies = movieLocalDataSource.movies
 
-    suspend fun requestPopularMovies(): Error? {
-        if (movieLocalDataSource.isEmpty()) {
-            movieRemoteDataSource
-                .findPopularMovies(regionRepository.findLastRegion())
-                .onRight { movies ->
-                    movieLocalDataSource.save(movies).onLeft { error ->
-                        return error
-                    }
-                }
-                .onLeft { error ->
-                    return error
-                }
-        }
+    suspend fun requestPopularMovies(): Either<Error?, Unit> {
+        movieRemoteDataSource
+            .findPopularMovies(regionRepository.findLastRegion())
+            .onRight { movies ->
+                saveLocalMovies(movies)
+            }
+            .onLeft { error ->
+                 return error.left()
+            }
 
-        return null
+        return Either.Left(null)
     }
+
+    private suspend fun saveLocalMovies(movies: List<Movie>): Either<Error?, Unit> =
+        movieLocalDataSource.save(movies).onLeft { error ->
+            return error.left()
+        }
 
     fun findMovie(id: Int) = movieLocalDataSource.findMovie(id)
 

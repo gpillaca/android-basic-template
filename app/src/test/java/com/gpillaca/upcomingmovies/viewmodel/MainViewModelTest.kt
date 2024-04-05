@@ -2,6 +2,7 @@ package com.gpillaca.upcomingmovies.viewmodel
 
 import app.cash.turbine.test
 import com.gpillaca.upcomingmovies.CoroutineTestRule
+import com.gpillaca.upcomingmovies.Either
 import com.gpillaca.upcomingmovies.movieStub
 import com.gpillaca.upcomingmovies.ui.main.MainViewModel
 import com.gpillaca.upcomingmovies.ui.main.MainViewModel.UiState
@@ -37,20 +38,21 @@ class MainViewModelTest {
 
     @Mock
     lateinit var getPopularMoviesUseCase: GetPopularMoviesUseCase
-
     private lateinit var mainViewModel: MainViewModel
-
-    private var movies = listOf(movieStub.copy(id = 5))
 
     @Before
     fun setUp() {
-        whenever(getPopularMoviesUseCase()).thenReturn(flowOf(movies))
         mainViewModel = MainViewModel(requestPopularMoviesUseCase, getPopularMoviesUseCase)
     }
 
     @Test
     fun `State is updated with current cached content immediately`() = runTest {
         val results = mutableListOf<UiState>()
+        val movies = listOf(movieStub.copy(id = 5))
+
+        mainViewModel.onUiReady()
+        whenever(getPopularMoviesUseCase()).thenReturn(flowOf(movies))
+
         val job = launch {
             mainViewModel.state.toList(results)
         }
@@ -61,8 +63,11 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `State is updated with current cached content immediately with Turbine`() = runTest {
-        mainViewModel = buildViewModel()
+    fun `Turbine_ State is updated with current cached content immediately`() = runTest {
+        val movies = listOf(movieStub.copy(id = 5))
+        mainViewModel.onUiReady()
+        whenever(getPopularMoviesUseCase()).thenReturn(flowOf(movies))
+
         mainViewModel.state.test {
             assertEquals(UiState(), awaitItem())
             assertEquals(UiState(movies = movies), awaitItem())
@@ -71,22 +76,28 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Progress is shown when screen start and hidden when it finishes requesting movies`() = runTest {
-        mainViewModel = buildViewModel()
+    fun `Requesting movies when cache content is empty`() = runTest {
         mainViewModel.onUiReady()
+        whenever(getPopularMoviesUseCase()).thenReturn(flowOf(emptyList()))
+        whenever(requestPopularMoviesUseCase()).thenReturn(Either.Left(null))
 
         mainViewModel.state.test {
             assertEquals(UiState(), awaitItem())
-            assertEquals(UiState(movies = movies), awaitItem())
-            assertEquals(UiState(movies = movies, loading = true), awaitItem())
-            assertEquals(UiState(movies = movies, loading = false), awaitItem())
+            assertEquals(UiState(loading = true), awaitItem())
+            assertEquals(UiState(loading = false), awaitItem())
             cancel()
         }
     }
 
-    private fun buildViewModel(): MainViewModel {
-        whenever(getPopularMoviesUseCase()).thenReturn(flowOf(movies))
-        return MainViewModel(requestPopularMoviesUseCase, getPopularMoviesUseCase)
+    @Test
+    fun `Progress is shown when screen start and hidden when it finishes requesting movies`() = runTest {
+        mainViewModel.requestPopularMovies()
+        whenever(requestPopularMoviesUseCase()).thenReturn(Either.Left(null))
+        mainViewModel.state.test {
+            assertEquals(UiState(), awaitItem())
+            assertEquals(UiState(loading = true), awaitItem())
+            assertEquals(UiState(loading = false), awaitItem())
+            cancel()
+        }
     }
-
 }

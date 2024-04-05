@@ -34,23 +34,31 @@ class MainViewModel @Inject constructor(
     private var _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    init {
+    fun onUiReady() {
         viewModelScope.launch {
             getPopularMoviesUseCase()
                 .catch { cause ->
                     _state.update { it.copy(error = cause.toError()) }
                 }
                 .collect { movies ->
-                    _state.update { UiState(movies = movies) }
+                    when {
+                        movies.isEmpty() -> {
+                            requestPopularMovies()
+                        }
+                        else -> {
+                            _state.update { UiState(movies = movies) }
+                        }
+                    }
                 }
         }
     }
 
-    fun onUiReady() {
+    fun requestPopularMovies() {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
-            val error = requestPopularMoviesUseCase()
-            _state.update { _state.value.copy(loading = false, error = error) }
+            requestPopularMoviesUseCase().onLeft { error ->
+                _state.update { _state.value.copy(loading = false, error = error) }
+            }
         }
     }
 }

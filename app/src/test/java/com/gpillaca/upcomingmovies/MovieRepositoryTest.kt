@@ -55,7 +55,6 @@ class MovieRepositoryTest {
     @Test
     fun `Popular movies are saved to local data source when it's empty`(): Unit = runBlocking {
         val movies = listOf(movieStub.copy(id = 5))
-        whenever(localDataSource.isEmpty()).thenReturn(true)
         whenever(regionRepository.findLastRegion()).thenReturn(DEFAULT_REGION)
         whenever(remoteDataSource.findPopularMovies(any())).thenReturn(movies.right())
         whenever(localDataSource.save(movies)).thenReturn(Unit.right())

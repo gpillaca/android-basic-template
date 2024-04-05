@@ -5,6 +5,7 @@ room = "2.6.1"
 androidx-appcompat = "1.6.1"
 androidx-constraintlayout = "2.1.4"
 androidx-recyclerview = "1.3.2"
+androidx-swiperefreshlayout = "1.1.0"
 androidx-activity = "1.8.2"
 androidx-lifecycle-viewmodel-ktx = "2.7.0"
 androidx-navigation = "2.7.7"
@@ -18,6 +19,7 @@ firebase-boom = "32.8.0"
 junit = "4.13.2"
 androidx-test-ext = "1.1.5"
 androidx-test-runner = "1.5.2"
+androidx-test-rules = "1.5.0"
 androidx-test-espresso-core = "3.5.1"
 coroutines = "1.7.1"
 mockito-kotlin = "5.2.0"
@@ -39,6 +41,8 @@ android-play-services-location = { group = "com.google.android.gms", name = "pla
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidx-recyclerview" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "androidx-swiperefreshlayout"}
+
 androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-viewmodel-ktx" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidx-navigation" }
@@ -66,7 +70,7 @@ glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", versi
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner"}
-androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidx-test-runner"}
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidx-test-rules"}
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-test-espresso-core" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito-kotlin"}

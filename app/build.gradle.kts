@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.bundles.androidx.navigation)

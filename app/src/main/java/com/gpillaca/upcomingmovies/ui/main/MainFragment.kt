@@ -35,12 +35,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         mainState = buildMainState()
 
-        binding.recycler.adapter = adapter
+        binding.recyclerMovies.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.state.map { it.loading }.distinctUntilChanged().collect{ isLoading ->
-                    binding.progress.isVisible = isLoading
+                    if (binding.swipeRefresh.isRefreshing && isLoading.not()) {
+                        binding.swipeRefresh.isRefreshing = false
+                    }
+
+                    if (binding.swipeRefresh.isRefreshing.not()) {
+                        binding.progress.isVisible = isLoading
+                    }
                 }
             }
         }
@@ -53,15 +59,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                             adapter.submitList(it)
                         }
                     }
-                }
+                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainViewModel.state.map { it.error }.distinctUntilChanged().collect{ error ->
-                    error?.let {
-                        Toast.makeText(requireActivity(), mainState.errorToString(it), Toast.LENGTH_LONG).show()
+                mainViewModel.state.collect{ error ->
+                    error.error?.let {
+                        Toast.makeText(requireActivity(), mainState.errorToString(it), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -69,6 +75,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         mainState.requestLocationPermissions {
             mainViewModel.onUiReady()
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            mainViewModel.requestPopularMovies()
         }
     }
 }

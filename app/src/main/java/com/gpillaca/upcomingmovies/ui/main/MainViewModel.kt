@@ -2,9 +2,9 @@ package com.gpillaca.upcomingmovies.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gpillaca.upcomingmovies.domain.Error
+import com.gpillaca.upcomingmovies.domain.common.Error
 import com.gpillaca.upcomingmovies.domain.Movie
-import com.gpillaca.upcomingmovies.domain.toError
+import com.gpillaca.upcomingmovies.domain.common.toError
 import com.gpillaca.upcomingmovies.usecase.GetPopularMoviesUseCase
 import com.gpillaca.upcomingmovies.usecase.RequestPopularMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

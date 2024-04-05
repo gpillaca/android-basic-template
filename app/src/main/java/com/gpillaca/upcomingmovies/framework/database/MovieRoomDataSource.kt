@@ -1,11 +1,11 @@
 package com.gpillaca.upcomingmovies.framework.database
 
-import com.gpillaca.upcomingmovies.Either
-import com.gpillaca.upcomingmovies.MovieMapper
+import com.gpillaca.upcomingmovies.domain.common.Either
+import com.gpillaca.upcomingmovies.domain.mapper.MovieMapper
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
-import com.gpillaca.upcomingmovies.domain.Error
+import com.gpillaca.upcomingmovies.domain.common.Error
 import com.gpillaca.upcomingmovies.domain.Movie
-import com.gpillaca.upcomingmovies.domain.catch
+import com.gpillaca.upcomingmovies.domain.common.catch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

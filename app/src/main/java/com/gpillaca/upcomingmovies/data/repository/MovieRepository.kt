@@ -1,12 +1,12 @@
 package com.gpillaca.upcomingmovies.data.repository
 
-import com.gpillaca.upcomingmovies.Either
+import com.gpillaca.upcomingmovies.domain.common.Either
 import com.gpillaca.upcomingmovies.domain.Movie
-import com.gpillaca.upcomingmovies.domain.catch
+import com.gpillaca.upcomingmovies.domain.common.catch
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
 import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
-import com.gpillaca.upcomingmovies.domain.Error
-import com.gpillaca.upcomingmovies.left
+import com.gpillaca.upcomingmovies.domain.common.Error
+import com.gpillaca.upcomingmovies.domain.common.left
 import javax.inject.Inject
 
 /**

@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies
+package com.gpillaca.upcomingmovies.domain.common
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract

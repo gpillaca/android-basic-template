@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.gpillaca.upcomingmovies.BuildConfig
-import com.gpillaca.upcomingmovies.MovieMapper
+import com.gpillaca.upcomingmovies.domain.mapper.MovieMapper
 import com.gpillaca.upcomingmovies.data.PermissionChecker
 import com.gpillaca.upcomingmovies.data.datasource.LocationDataSource
 import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource

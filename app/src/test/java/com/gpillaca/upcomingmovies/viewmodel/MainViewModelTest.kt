@@ -2,7 +2,7 @@ package com.gpillaca.upcomingmovies.viewmodel
 
 import app.cash.turbine.test
 import com.gpillaca.upcomingmovies.CoroutineTestRule
-import com.gpillaca.upcomingmovies.Either
+import com.gpillaca.upcomingmovies.domain.common.Either
 import com.gpillaca.upcomingmovies.movieStub
 import com.gpillaca.upcomingmovies.ui.main.MainViewModel
 import com.gpillaca.upcomingmovies.ui.main.MainViewModel.UiState

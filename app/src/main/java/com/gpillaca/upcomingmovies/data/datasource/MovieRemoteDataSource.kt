@@ -1,7 +1,7 @@
 package com.gpillaca.upcomingmovies.data.datasource
 
-import com.gpillaca.upcomingmovies.Either
-import com.gpillaca.upcomingmovies.domain.Error
+import com.gpillaca.upcomingmovies.domain.common.Either
+import com.gpillaca.upcomingmovies.domain.common.Error
 import com.gpillaca.upcomingmovies.domain.Movie
 
 interface MovieRemoteDataSource {

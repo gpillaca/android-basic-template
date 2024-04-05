@@ -1,12 +1,12 @@
 package com.gpillaca.upcomingmovies.framework.server
 
-import com.gpillaca.upcomingmovies.Either
-import com.gpillaca.upcomingmovies.MovieMapper
+import com.gpillaca.upcomingmovies.domain.common.Either
+import com.gpillaca.upcomingmovies.domain.mapper.MovieMapper
 import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
 import com.gpillaca.upcomingmovies.di.ApiKey
-import com.gpillaca.upcomingmovies.domain.Error
+import com.gpillaca.upcomingmovies.domain.common.Error
 import com.gpillaca.upcomingmovies.domain.Movie
-import com.gpillaca.upcomingmovies.domain.catch
+import com.gpillaca.upcomingmovies.domain.common.catch
 import javax.inject.Inject
 
 class MovieServerDataSource @Inject constructor(

@@ -4,6 +4,7 @@ import com.gpillaca.upcomingmovies.data.datasource.MovieLocalDataSource
 import com.gpillaca.upcomingmovies.data.datasource.MovieRemoteDataSource
 import com.gpillaca.upcomingmovies.data.repository.MovieRepository
 import com.gpillaca.upcomingmovies.data.repository.RegionRepository
+import com.gpillaca.upcomingmovies.domain.common.right
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

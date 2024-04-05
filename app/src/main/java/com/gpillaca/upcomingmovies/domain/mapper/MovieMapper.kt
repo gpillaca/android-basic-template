@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies
+package com.gpillaca.upcomingmovies.domain.mapper
 
 import com.gpillaca.upcomingmovies.domain.Movie
 import com.gpillaca.upcomingmovies.framework.database.MovieDB

@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import com.gpillaca.upcomingmovies.domain.Error
+import com.gpillaca.upcomingmovies.domain.common.Error
 import androidx.navigation.fragment.findNavController
 import com.gpillaca.upcomingmovies.R
 import com.gpillaca.upcomingmovies.ui.common.PermissionRequester

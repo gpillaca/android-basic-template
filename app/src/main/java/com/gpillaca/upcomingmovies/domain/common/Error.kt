@@ -1,8 +1,5 @@
-package com.gpillaca.upcomingmovies.domain
+package com.gpillaca.upcomingmovies.domain.common
 
-import com.gpillaca.upcomingmovies.Either
-import com.gpillaca.upcomingmovies.left
-import com.gpillaca.upcomingmovies.right
 import retrofit2.HttpException
 import okio.IOException
 

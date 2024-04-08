@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui.main
+package com.gpillaca.upcomingmovies.ui.movies
 
 import android.os.Bundle
 import android.view.View
@@ -10,36 +10,36 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.gpillaca.upcomingmovies.R
-import com.gpillaca.upcomingmovies.databinding.FragmentMainBinding
+import com.gpillaca.upcomingmovies.databinding.FragmentMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
-    private lateinit var binding: FragmentMainBinding
+    private lateinit var binding: FragmentMoviesBinding
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val moviesViewModel: MoviesViewModel by viewModels()
 
     private val adapter = MoviesAdapter{ movie ->
-        mainState.onMovieClick(movie.id)
+        moviesState.onMovieClick(movie.id)
     }
 
-    private lateinit var mainState: MainState
+    private lateinit var moviesState: MoviesState
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentMainBinding.bind(view)
+        binding = FragmentMoviesBinding.bind(view)
 
-        mainState = buildMainState()
+        moviesState = buildMoviesState()
 
         binding.recyclerMovies.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainViewModel.state.map { it.loading }.distinctUntilChanged().collect{ isLoading ->
+                moviesViewModel.state.map { it.loading }.distinctUntilChanged().collect{ isLoading ->
                     if (binding.swipeRefresh.isRefreshing && isLoading.not()) {
                         binding.swipeRefresh.isRefreshing = false
                     }
@@ -53,7 +53,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                with(mainViewModel.state) {
+                with(moviesViewModel.state) {
                     map { state -> state.movies }.distinctUntilChanged().collect { movies ->
                         movies?.let {
                             adapter.submitList(it)
@@ -65,20 +65,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainViewModel.state.collect{ error ->
+                moviesViewModel.state.collect{ error ->
                     error.error?.let {
-                        Toast.makeText(requireActivity(), mainState.errorToString(it), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), moviesState.errorToString(it), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
 
-        mainState.requestLocationPermissions {
-            mainViewModel.onUiReady()
+        moviesState.requestLocationPermissions {
+            moviesViewModel.onUiReady()
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-            mainViewModel.requestPopularMovies()
+            moviesViewModel.requestPopularMovies()
         }
     }
 }

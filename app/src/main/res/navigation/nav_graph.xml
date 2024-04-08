@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/main_dest">
+    app:startDestination="@id/movies_dest">
 
     <fragment
-        android:id="@+id/main_dest"
-        android:name="com.gpillaca.upcomingmovies.ui.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:id="@+id/movies_dest"
+        android:name="com.gpillaca.upcomingmovies.ui.movies.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies" >
         <action
-            android:id="@+id/action_main_to_moviedetail"
+            android:id="@+id/action_movies_to_moviedetail"
             app:destination="@id/movieDetail_dest"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />

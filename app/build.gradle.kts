@@ -3,8 +3,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.navigation.safeargs)
     alias(libs.plugins.dagger.hilt.android)
     id("org.jetbrains.kotlin.kapt")
@@ -80,9 +78,6 @@ dependencies {
     kapt(libs.glide.compiler)
 
     implementation(libs.bundles.retrofit2)
-
-    implementation(platform(libs.firebase.boom))
-    implementation(libs.bundles.firebase)
 
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)

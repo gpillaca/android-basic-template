@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui.main
+package com.gpillaca.upcomingmovies.ui.movies
 
 import android.view.View
 import android.view.ViewGroup

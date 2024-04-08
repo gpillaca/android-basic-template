@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui.main
+package com.gpillaca.upcomingmovies.ui.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,10 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Test class [MainViewModelTest]
+ * Test class [MoviesViewModelTest]
  */
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class MoviesViewModel @Inject constructor(
     private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase
 ) : ViewModel() {

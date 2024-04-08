@@ -1,4 +1,4 @@
-package com.gpillaca.upcomingmovies.ui.main
+package com.gpillaca.upcomingmovies.ui.movies
 
 import android.Manifest
 import android.content.Context
@@ -12,7 +12,7 @@ import com.gpillaca.upcomingmovies.ui.common.PermissionRequester
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class MainState(
+class MoviesState(
     private val context: Context,
     private val scope: CoroutineScope,
     private val locationPermissionRequester: PermissionRequester,
@@ -20,7 +20,7 @@ class MainState(
 ) {
 
     fun onMovieClick(movieId: Int) {
-        val navAction = MainFragmentDirections.actionMainToMoviedetail(movieId)
+        val navAction = MoviesFragmentDirections.actionMoviesToMoviedetail(movieId)
         navController.navigate(navAction)
     }
 
@@ -38,7 +38,7 @@ class MainState(
     }
 }
 
-fun Fragment.buildMainState(
+fun Fragment.buildMoviesState(
     context: Context = requireContext(),
     scope: CoroutineScope = viewLifecycleOwner.lifecycleScope,
     locationPermissionRequester: PermissionRequester = PermissionRequester(
@@ -46,4 +46,4 @@ fun Fragment.buildMainState(
         Manifest.permission.ACCESS_COARSE_LOCATION
     ),
     navController: NavController = findNavController()
-) = MainState(context, scope, locationPermissionRequester, navController)
+) = MoviesState(context, scope, locationPermissionRequester, navController)

@@ -11,11 +11,11 @@ plugins {
 }
 
 android {
-    namespace = "com.gpillaca.upcomingmovies"
+    namespace = "android.gpillaca.upcomingmovies"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.gpillaca.upcomingmovies"
+        applicationId = "android.gpillaca.upcomingmovies"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movies_dest"
-        android:name="com.gpillaca.upcomingmovies.ui.movies.MoviesFragment"
+        android:name="android.gpillaca.upcomingmovies.ui.movies.MoviesFragment"
         android:label="fragment_movies"
         tools:layout="@layout/fragment_movies" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/movieDetail_dest"
-        android:name="com.gpillaca.upcomingmovies.ui.detail.MovieDetailFragment"
+        android:name="android.gpillaca.upcomingmovies.ui.detail.MovieDetailFragment"
         android:label="fragment_movie_detail"
         tools:layout="@layout/fragment_movie_detail" >
         <argument
